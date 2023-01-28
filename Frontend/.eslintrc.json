@@ -6,7 +6,8 @@
   "plugins": [
     "@typescript-eslint",
     "import",
-    "unused-imports"
+    "unused-imports",
+    "react"
   ],
   "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
   // "extends": [
