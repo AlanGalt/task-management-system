@@ -4,9 +4,9 @@
     "project": "./tsconfig.json"
   },
   "plugins": [
-    "@typescript-eslint"
-    // "import",
-    // "unused-imports"
+    "@typescript-eslint",
+    "import",
+    "unused-imports"
   ],
   "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
   // "extends": [
