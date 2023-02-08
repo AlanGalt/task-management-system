@@ -1,7 +1,5 @@
 const MyTasksView = () => {
-  return (
-    <div>MyTasksView</div>
-  )
-}
+  return <div>MyTasksView</div>;
+};
 
 export default MyTasksView;

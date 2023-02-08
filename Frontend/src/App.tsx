@@ -8,7 +8,7 @@ import AnalyticsView from './views/AnalyticsView';
 
 const App = () => {
   return (
-    <div className="h-screen bg-base-300 text-base-content">
+    <div className="h-screen overflow-hidden bg-base-100 text-base-content">
       <Header />
       <Routes>
         <Route path="/dashboard" element={<DashboardView />} />

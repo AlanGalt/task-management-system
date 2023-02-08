@@ -19,7 +19,7 @@ const ProfileMenu = () => {
         leaveFrom="transform scale-100 opacity-100"
         leaveTo="transform scale-95 opacity-0"
       >
-        <Menu.Items className="absolute right-0 z-10 flex-col w-64 py-3 shadow-xl bg-base-100 top-full">
+        <Menu.Items className="absolute right-0 z-10 flex-col w-64 py-3 shadow-xl bg-base-100 top-[calc(100%+4px)]">
           <div className="pb-3 border-b-2 border-base-300">
             <div className="flex justify-center">
               <ProfilePicture className="w-20 h-20" />

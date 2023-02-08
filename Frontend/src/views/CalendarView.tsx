@@ -1,7 +1,5 @@
 const CalendarView = () => {
-  return (
-    <div>CalendarView</div>
-  )
-}
+  return <div>CalendarView</div>;
+};
 
 export default CalendarView;

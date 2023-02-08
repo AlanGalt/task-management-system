@@ -53,21 +53,20 @@ const Notifications = () => {
 
           <Transition
             as={Fragment}
-            enter="transition duration-100 ease-out"
+            enter="transition duration-100 ease-in-out"
             enterFrom="transform scale-95 opacity-0"
             enterTo="transform scale-100 opacity-100"
             leave="transition duration-75 ease-out"
             leaveFrom="transform scale-100 opacity-100"
             leaveTo="transform scale-95 opacity-0"
           >
-            <Popover.Panel className="absolute right-0 z-10 md:shadow-xl bg-base-100 w-96 h-96 top-full">
+            <Popover.Panel className="absolute top-[calc(100%+4px)] right-0 z-10 md:shadow-xl bg-base-100 w-96 h-96">
               <div className="flex items-center justify-between px-4 py-3 border-b-2 border-base-300">
                 <h1 className="text-lg text-left">Notifications</h1>
                 <a href="#">
                   <Cog6ToothIcon className="h-7 hover:cursor-pointer" />
                 </a>
               </div>
-
               <div className="overflow-y-auto max-h-[calc(100%-(3.25rem+2px))]">
                 {notifications.map((item) => (
                   <div className="relative p-3 hover:bg-base-200 hover:cursor-pointer">

@@ -1,8 +1,8 @@
 import LocalPicture from '../assets/ProfilePicture.jpg';
 
-type ProfilePictureProps = {
+interface ProfilePictureProps {
   className: string;
-};
+}
 
 const ProfilePicture = ({ className }: ProfilePictureProps) => {
   return (

@@ -18,7 +18,8 @@ const navigation = [
 
 const Header = () => {
   return (
-    <nav className="relative flex items-center justify-between p-1 px-4 bg-base-100">
+    <nav className="relative flex items-center justify-between p-1 px-4 border-b-4 border-base-300 bg-base-100">
+      {/* Responsive */}
       <Menu as="div" className="block md:hidden">
         {({ open }) => (
           <>
