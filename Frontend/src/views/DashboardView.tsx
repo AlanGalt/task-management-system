@@ -1,7 +1,7 @@
+import ProjectList from '../components/ProjectList';
+
 const DashboardView = () => {
-  return (
-    <div>DashboardView</div>
-  )
-}
+  return <ProjectList />;
+};
 
 export default DashboardView;
