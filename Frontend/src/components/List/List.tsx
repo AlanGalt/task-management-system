@@ -16,7 +16,7 @@ const List = ({ title, onRemove }: ListProps) => {
   }
 
   return (
-    <div className="p-2 rounded-md bg-base-300 w-72">
+    <div className="flex-shrink-0 p-2 rounded-md bg-base-300 w-72 h-fit">
       <div className="p-2 font-bold">
         <h3>{title}</h3>
       </div>

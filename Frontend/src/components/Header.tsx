@@ -18,7 +18,7 @@ const navigation = [
 
 const Header = () => {
   return (
-    <nav className="relative flex items-center justify-between p-1 px-4 border-b-4 border-base-300 bg-white">
+    <nav className="relative flex items-center justify-between p-1 px-4 bg-white border-b-4 h-14 border-base-300">
       {/* Responsive */}
       <Menu as="div" className="block md:hidden">
         {({ open }) => (
@@ -32,7 +32,7 @@ const Header = () => {
             </Menu.Button>
             <Menu.Items
               as="div"
-              className="absolute left-0 w-full text-center flex-column top-full bg-white"
+              className="absolute left-0 w-full text-center bg-white flex-column top-full"
             >
               {navigation.map((item) => (
                 <Menu.Item as="div" className="w-full">
