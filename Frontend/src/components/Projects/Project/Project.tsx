@@ -3,26 +3,40 @@ import { TrashIcon } from '@heroicons/react/24/outline';
 
 import List from '../../List';
 import { ProjectProps } from './Project.types';
-import classNames from 'classnames';
 
 const Project = ({ projectData, onRemove }: ProjectProps) => {
-  const [lists, setLists] = useState<string[]>([]);
-  const [newListTitle, setNewListTitle] = useState('');
   const { title, description } = projectData;
 
+  const [lists, setLists] = useState<string[]>([]);
+  const [newListTitle, setNewListTitle] = useState('');
+  const [projectTitle, setProjectTitle] = useState(title);
+  const [isEditingTitle, setIsEditingTitle] = useState(false);
+
   const addList = (list: string) => {
+    if (!list) return;
     setLists([...lists, list]);
     setNewListTitle('');
   };
 
+  //TODO: fix the remove bug on all remove function
   const removeList = (listIndex: number) => {
-    setLists(lists.filter((list, index) => index !== listIndex));
+    setLists((prevLists) => prevLists.filter((_, index) => index !== listIndex));
   };
 
   return (
     <div className="flex flex-col w-full h-full p-4">
       <div className="flex items-center justify-between w-full gap-2 mb-4">
-        <h2 className="text-2xl font-bold">{title}</h2>
+        {/* TODO: make input auto stretch to fit title */}
+        <input
+          value={projectTitle}
+          onChange={(e) => setProjectTitle(e.target.value)}
+          className={`text-2xl px-2 font-bold rounded-md ${
+            isEditingTitle ? 'bg-white' : 'bg-transparent cursor-pointer'
+          }`}
+          onBlur={() => setIsEditingTitle(false)}
+          onClick={() => setIsEditingTitle(true)}
+          readOnly={!isEditingTitle}
+        />
         <button
           onClick={onRemove}
           className="p-1 font-semibold text-white bg-red-500 rounded-md w-9 h-9 hover:bg-red-600"
@@ -31,7 +45,7 @@ const Project = ({ projectData, onRemove }: ProjectProps) => {
         </button>
       </div>
       {/* TODO: make scroll span from end to end of it's container & at the bottom*/}
-      <div className={classNames({ 'gap-2': lists.length }, 'flex overflow-x-auto h-full')}>
+      <div className="flex h-full gap-2 overflow-x-auto">
         {lists.map((list, index) => (
           <List key={index} title={list} onRemove={() => removeList(index)} />
         ))}
