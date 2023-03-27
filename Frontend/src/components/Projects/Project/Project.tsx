@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import List from '../List';
+import List from '../../List';
 import { ProjectProps } from './Project.types';
 
 const Project = ({ title, onRemove, onReturn }: ProjectProps) => {
