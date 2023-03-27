@@ -3,22 +3,23 @@ import { useState } from 'react';
 import List from '../../List';
 import { ProjectProps } from './Project.types';
 
-const Project = ({ title, onRemove, onReturn }: ProjectProps) => {
+const Project = ({ projectData, onRemove, onReturn }: ProjectProps) => {
   const [lists, setLists] = useState<string[]>([]);
+  const { title, description } = projectData;
 
-  function addList(list: string) {
+  const addList = (list: string) => {
     setLists([...lists, list]);
-  }
+  };
 
-  function handleRemoveList(listIndex: number) {
+  const removeList = (listIndex: number) => {
     setLists(lists.filter((list, index) => index !== listIndex));
-  }
+  };
 
   return (
     <div className="flex flex-col bg-base-300">
       <h2>{title}</h2>
       {lists.map((list, index) => (
-        <List key={index} title={list} onRemove={() => handleRemoveList(index)} />
+        <List key={index} title={list} onRemove={() => removeList(index)} />
       ))}
       <input
         type="text"

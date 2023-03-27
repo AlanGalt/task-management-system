@@ -1,2 +1,4 @@
 - [ ] Projects sidebar (folders): your projects, collabs, add custom)
 - [ ] Maybe change colorscheme (?)
+- [ ] Form Validation (?)
+- [ ] Tests (?)

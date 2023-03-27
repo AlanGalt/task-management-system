@@ -1,5 +1,10 @@
 export interface ProjectProps {
-  title: string;
+  projectData: ProjectData;
   onRemove: () => void;
   onReturn: () => void;
+}
+
+export interface ProjectData {
+  title: string;
+  description?: string;
 }
