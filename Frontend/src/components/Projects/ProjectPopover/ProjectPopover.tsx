@@ -25,7 +25,7 @@ const ProjectPopover = ({ onSubmit }: ProjectPopoverProps) => {
           <PlusIcon />
         </Popover.Button>
       </div>
-      <Popover.Panel className="absolute z-10 -translate-x-1/2 -translate-y-1/2 border-2 border-base-300 bg-base-100 top-1/2 left-1/2">
+      <Popover.Panel className="absolute z-10 -translate-x-1/2 -translate-y-1/2 border-2 border-base-300 bg-white top-1/2 left-1/2">
         {({ close }) => (
           <form
             className="flex flex-col p-4 space-y-2"

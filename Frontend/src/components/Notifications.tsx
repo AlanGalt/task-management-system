@@ -48,7 +48,7 @@ const Notifications = () => {
         <>
           <Popover.Button className="relative p-2 rounded-full outline-none hover:bg-base-300 hover:cursor-pointer">
             {open ? <BellIconSolid className="h-7" /> : <BellIcon className="h-7" />}
-            <div className="absolute w-3 h-3 border-2 rounded-full border-base-100 bg-error top-2 right-3"></div>
+            <div className="absolute w-3 h-3 border-2 rounded-full border-white bg-error top-2 right-3"></div>
           </Popover.Button>
 
           <Transition
@@ -60,7 +60,7 @@ const Notifications = () => {
             leaveFrom="transform scale-100 opacity-100"
             leaveTo="transform scale-95 opacity-0"
           >
-            <Popover.Panel className="absolute top-[calc(100%+4px)] right-0 z-10 md:shadow-xl bg-base-100 w-96 h-96">
+            <Popover.Panel className="absolute top-[calc(100%+4px)] right-0 z-10 md:shadow-xl bg-white w-96 h-96">
               <div className="flex items-center justify-between px-4 py-3 border-b-2 border-base-300">
                 <h1 className="text-lg text-left">Notifications</h1>
                 <a href="#">

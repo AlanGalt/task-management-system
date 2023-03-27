@@ -18,7 +18,7 @@ const navigation = [
 
 const Header = () => {
   return (
-    <nav className="relative flex items-center justify-between p-1 px-4 border-b-4 border-base-300 bg-base-100">
+    <nav className="relative flex items-center justify-between p-1 px-4 border-b-4 border-base-300 bg-white">
       {/* Responsive */}
       <Menu as="div" className="block md:hidden">
         {({ open }) => (
@@ -32,7 +32,7 @@ const Header = () => {
             </Menu.Button>
             <Menu.Items
               as="div"
-              className="absolute left-0 w-full text-center flex-column top-full bg-base-100"
+              className="absolute left-0 w-full text-center flex-column top-full bg-white"
             >
               {navigation.map((item) => (
                 <Menu.Item as="div" className="w-full">
@@ -42,7 +42,7 @@ const Header = () => {
                     className={({ isActive }) =>
                       classNames(
                         {
-                          'bg-base-content text-base-100': isActive,
+                          'bg-base-content text-white': isActive,
                           'hover:bg-base-300': !isActive,
                         },
                         'py-2 px-4 block text-xl font-medium outline-none'
@@ -72,7 +72,7 @@ const Header = () => {
                 className={({ isActive }) =>
                   classNames(
                     {
-                      'bg-base-content text-base-100': isActive,
+                      'bg-base-content text-white': isActive,
                       'hover:bg-base-300': !isActive,
                     },
                     'py-2 mr-2 lg:mr-6 xl:mr-8 last:mr-0 px-4 rounded-lg font-medium outline-none'

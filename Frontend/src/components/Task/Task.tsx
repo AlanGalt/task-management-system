@@ -19,7 +19,7 @@ const Task = ({ title, onRemove }: TaskProps) => {
   }
 
   return (
-    <div>
+    <div className="p-2 bg-white">
       {isEditing ? (
         <>
           <input type="text" value={taskTitle} onChange={handleTaskTitleChange} />
@@ -28,8 +28,8 @@ const Task = ({ title, onRemove }: TaskProps) => {
       ) : (
         <>
           <span>{taskTitle}</span>
-          <button onClick={handleEditClick}>Edit</button>
-          <button onClick={onRemove}>Remove</button>
+          {/* <button onClick={handleEditClick}>Edit</button>
+          <button onClick={onRemove}>Remove</button> */}
         </>
       )}
     </div>
