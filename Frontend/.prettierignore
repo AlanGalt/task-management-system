@@ -1,6 +1,7 @@
 build/*
 .eslintrc.json
 react-app-env.d.ts
+tailwind.config.js
 
 # dependencies
 /node_modules/**

@@ -16,6 +16,10 @@
     "jsx": "react-jsx",
     "typeRoots": ["./types", "./node_modules/@types"],
     "noFallthroughCasesInSwitch": true
+    // "paths": {
+    //   "@": ["./src"],
+    //   "@/*": ["./src/*"]
+    // }
   },
   "include": ["src", "src/**/*.tsx?"]
 }
