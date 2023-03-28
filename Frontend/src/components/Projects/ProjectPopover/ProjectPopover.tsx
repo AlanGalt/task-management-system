@@ -23,7 +23,7 @@ const ProjectPopover = ({ onSubmit }: ProjectPopoverProps) => {
 
   return (
     <Popover>
-      <Popover.Button className="flex items-center justify-center h-32 rounded-md w-52 bg-slate-300">
+      <Popover.Button className="flex items-center justify-center h-32 rounded-md w-52 bg-slate-200 hover:bg-slate-300">
         Create new project
       </Popover.Button>
       <Popover.Panel
