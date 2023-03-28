@@ -25,7 +25,7 @@ const ProjectPopover = ({ onSubmit }: ProjectPopoverProps) => {
           <PlusIcon />
         </Popover.Button>
       </div>
-      <Popover.Panel className="absolute z-10 -translate-x-1/2 -translate-y-1/2 border-2 border-base-300 bg-white top-1/2 left-1/2">
+      <Popover.Panel className="absolute z-10 -translate-x-1/2 -translate-y-1/2 bg-white border-2 border-base-300 top-1/2 left-1/2">
         {({ close }) => (
           <form
             className="flex flex-col p-4 space-y-2"
@@ -42,7 +42,7 @@ const ProjectPopover = ({ onSubmit }: ProjectPopoverProps) => {
               name="title"
               value={projectData.title}
               onChange={handleChange}
-              className="p-2 border border-gray-400 rounded-md"
+              className="p-2 border rounded-md border-slate-400"
               required
             />
             <label htmlFor="description" className="font-medium">
@@ -53,7 +53,7 @@ const ProjectPopover = ({ onSubmit }: ProjectPopoverProps) => {
               value={projectData.description}
               onChange={handleChange}
               rows={3}
-              className="p-2 border border-gray-400 rounded-md resize-none"
+              className="p-2 border rounded-md resize-none border-slate-400"
             ></textarea>
             <div className="flex justify-end space-x-2">
               <button

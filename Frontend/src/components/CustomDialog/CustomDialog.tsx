@@ -32,11 +32,11 @@ const CustomDialog = ({ title, description, isOpen, onClose }: DialogProps) => {
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel className="w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
+                <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-base-content">
                   {title}
                 </Dialog.Title>
                 <div className="mt-2">
-                  <Dialog.Description className="text-sm text-gray-500">
+                  <Dialog.Description className="text-sm text-slate-500">
                     {description}
                   </Dialog.Description>
                 </div>
