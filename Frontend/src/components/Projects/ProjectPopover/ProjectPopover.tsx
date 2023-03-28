@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Popover } from '@headlessui/react';
-import { PlusIcon } from '@heroicons/react/24/outline';
 
 import { ProjectPopoverProps } from './ProjectPopover.types';
 import { ProjectData } from '../Project/Project.types';
@@ -18,14 +17,19 @@ const ProjectPopover = ({ onSubmit }: ProjectPopoverProps) => {
     setProjectData({ title: '', description: '' });
   };
 
+  const handleBlur = () => {
+    setProjectData({ title: '', description: '' });
+  };
+
   return (
     <Popover>
-      <div className="flex items-center justify-center h-32 rounded-md w-52 bg-base-200">
-        <Popover.Button className="w-16 h-16 p-2 text-center bg-green-400 rounded-full outline-none hover:bg-green-500 hover:cursor-pointer text-base-content">
-          <PlusIcon />
-        </Popover.Button>
-      </div>
-      <Popover.Panel className="absolute z-10 -translate-x-1/2 -translate-y-1/2 bg-white border-2 border-base-300 top-1/2 left-1/2">
+      <Popover.Button className="flex items-center justify-center h-32 rounded-md w-52 bg-slate-300">
+        Create new project
+      </Popover.Button>
+      <Popover.Panel
+        onBlur={handleBlur}
+        className="absolute z-10 -translate-x-1/2 -translate-y-1/2 bg-white border-2 border-base-300 top-1/2 left-1/2"
+      >
         {({ close }) => (
           <form
             className="flex flex-col p-4 space-y-2"
@@ -44,6 +48,7 @@ const ProjectPopover = ({ onSubmit }: ProjectPopoverProps) => {
               onChange={handleChange}
               className="p-2 border rounded-md border-slate-400"
               required
+              autoFocus
             />
             <label htmlFor="description" className="font-medium">
               Description
