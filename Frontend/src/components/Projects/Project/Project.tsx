@@ -69,7 +69,6 @@ const Project = ({ projectData, onRemove }: ProjectProps) => {
               <span>Add members</span>
             </button>
           </div>
-          {/* Side menu on click here */}
           <button className="p-1 rounded-md bg-slate-100 w-9 h-9 hover:bg-slate-200">
             <EllipsisHorizontalIcon />
           </button>

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Popover } from '@headlessui/react';
 
-import { ProjectPopoverProps } from './ProjectPopover.types';
+import { CreateProjectPopoverProps } from './CreateProjectPopover.types';
 import { ProjectData } from '../Project/Project.types';
 
-const ProjectPopover = ({ onSubmit }: ProjectPopoverProps) => {
+const CreateProjectPopover = ({ onSubmit }: CreateProjectPopoverProps) => {
   const [projectData, setProjectData] = useState<ProjectData>({ title: '', description: '' });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -75,4 +75,4 @@ const ProjectPopover = ({ onSubmit }: ProjectPopoverProps) => {
   );
 };
 
-export default ProjectPopover;
+export default CreateProjectPopover;

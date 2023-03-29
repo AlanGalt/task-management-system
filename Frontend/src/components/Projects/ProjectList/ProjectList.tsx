@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import Project from '../Project';
 import { ProjectData } from '../Project/Project.types';
-import ProjectPopover from '../ProjectPopover';
+import CreateProjectPopover from '../CreateProjectPopover';
 
 const ProjectList = () => {
   const [projects, setProjects] = useState<ProjectData[]>([]);
@@ -45,7 +45,7 @@ const ProjectList = () => {
                     </div>
                   </div>
                 ))}
-              <ProjectPopover onSubmit={(newProject) => addProject(newProject)} />
+              <CreateProjectPopover onSubmit={(newProject) => addProject(newProject)} />
             </div>
           </div>
         )}
