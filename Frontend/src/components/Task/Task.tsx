@@ -1,15 +1,22 @@
-import { CheckIcon, PencilIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { CheckIcon, PencilIcon } from '@heroicons/react/24/outline';
 import React, { useState, useRef } from 'react';
 
 import { TaskProps } from './Task.types';
+import TaskDialog from './TaskDialog';
 
-const Task = ({ title, onRemove }: TaskProps) => {
+const Task = ({ title, onDelete }: TaskProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [taskTitle, setTaskTitle] = useState(title);
   const [updatedTaskTitle, setUpdatedTaskTitle] = useState(title);
-  const saveButtonRef = useRef<HTMLButtonElement | null>(null);
 
-  const handleEdit = () => {
+  const [taskDescription, setTaskDescription] = useState('');
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const saveButtonRef = useRef<HTMLButtonElement | null>(null);
+  const editButtonRef = useRef<HTMLButtonElement | null>(null);
+
+  const handleEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     setIsEditing(true);
   };
 
@@ -49,17 +56,32 @@ const Task = ({ title, onRemove }: TaskProps) => {
       </button>
     </div>
   ) : (
-    <div className="flex items-center justify-between p-2 bg-white rounded-md cursor-pointer group">
-      <span>{taskTitle}</span>
-      <div className="flex">
-        <button
-          className="invisible p-1 rounded-md hover:cursor-pointer group-hover:visible hover:bg-base-200"
-          onClick={handleEdit}
-        >
-          <PencilIcon className="h-5" />
-        </button>
+    <>
+      <div
+        onClick={() => setIsDialogOpen(true)}
+        className="flex items-center justify-between p-2 bg-white rounded-md cursor-pointer group"
+      >
+        <span>{taskTitle}</span>
+        <div className="flex">
+          <button
+            className="invisible p-1 rounded-md hover:cursor-pointer group-hover:visible hover:bg-base-200"
+            onClick={handleEdit}
+            ref={editButtonRef}
+          >
+            <PencilIcon className="h-5" />
+          </button>
+        </div>
       </div>
-    </div>
+      <TaskDialog
+        isOpen={isDialogOpen}
+        description={taskDescription}
+        setDescription={setTaskDescription}
+        onClose={() => setIsDialogOpen(false)}
+        title={taskTitle}
+        setTitle={setTaskTitle}
+        onDelete={onDelete}
+      />
+    </>
   );
 };
 

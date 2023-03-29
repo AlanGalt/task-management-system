@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
+import classNames from 'classnames';
 
 import List from '../../List';
 import { ProjectProps } from './Project.types';
@@ -39,12 +40,14 @@ const Project = ({ projectData, onRemove }: ProjectProps) => {
     <div className="flex flex-col w-full h-full p-4">
       <div className="flex items-center justify-between w-full gap-2 mb-4">
         {/* TODO: make input auto stretch to fit title */}
+        {/* TODO: extract this type of input as it's own component */}
         <input
           value={projectTitle}
           onChange={(e) => setProjectTitle(e.target.value)}
-          className={`text-2xl px-2 font-bold rounded-md ${
-            isEditingTitle ? 'bg-white' : 'bg-transparent cursor-pointer'
-          }`}
+          className={classNames(
+            { 'bg-transparent cursor-pointer outline-none': !isEditingTitle },
+            'text-2xl px-2 font-bold rounded-md'
+          )}
           onBlur={() => setIsEditingTitle(false)}
           onClick={() => setIsEditingTitle(true)}
           readOnly={!isEditingTitle}
@@ -86,7 +89,7 @@ const Project = ({ projectData, onRemove }: ProjectProps) => {
             <button
               ref={addListButtonRef}
               onClick={addList}
-              className="px-2 py-1 bg-green-300 rounded-md hover:bg-green-400 w-fit"
+              className="px-3 py-1 text-white bg-green-400 rounded-md w-fit hover:bg-green-500"
             >
               Add list
             </button>

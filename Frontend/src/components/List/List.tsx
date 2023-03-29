@@ -1,4 +1,5 @@
 import { EllipsisHorizontalIcon, PlusIcon } from '@heroicons/react/24/outline';
+import classNames from 'classnames';
 import React, { useRef, useState } from 'react';
 
 import Task from '../Task';
@@ -35,13 +36,14 @@ const List = ({ title, onRemove }: ListProps) => {
 
   return (
     <div className="flex flex-col flex-shrink-0 gap-2 p-2 rounded-md bg-base-300 w-72 h-fit">
-      <div className="flex justify-between gap-1 font-bold">
+      <div className="flex justify-between gap-1 font-medium">
         <input
           value={listTitle}
           onChange={(e) => setListTitle(e.target.value)}
-          className={`w-full px-2 rounded-md ${
-            isEditingTitle ? 'bg-white' : 'bg-transparent cursor-pointer outline-none'
-          }`}
+          className={classNames(
+            { 'bg-transparent cursor-pointer outline-none': !isEditingTitle },
+            'w-full px-2 rounded-md'
+          )}
           onBlur={() => setIsEditingTitle(false)}
           onClick={() => setIsEditingTitle(true)}
           readOnly={!isEditingTitle}
@@ -55,7 +57,7 @@ const List = ({ title, onRemove }: ListProps) => {
       </div>
       <div className="flex flex-col gap-2">
         {tasks.map((task, index) => (
-          <Task key={index} title={task} onRemove={() => removeTask(index)} />
+          <Task key={index} title={task} onDelete={() => removeTask(index)} />
         ))}
         {!isAddingTask ? (
           <button
