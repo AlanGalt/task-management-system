@@ -13,21 +13,16 @@ const ProjectList = () => {
     setProjects([...projects, newProject]);
   };
 
-  const removeProject = (projectIndex: number) => {
-    setProjects(projects.filter((project, index) => index !== projectIndex));
+  const handleDelete = () => {
+    setProjects(projects.filter((project, index) => index !== openedProject));
+    setOpenedProject(null);
   };
 
   return (
     <>
       <div className={'flex justify-center h-full p-2'}>
         {openedProject !== null ? (
-          <Project
-            projectData={projects[openedProject]}
-            onRemove={() => {
-              removeProject(openedProject);
-              setOpenedProject(null);
-            }}
-          />
+          <Project projectData={projects[openedProject]} onDelete={() => handleDelete()} />
         ) : (
           // add 3 dots in top right corner for delete edit etc
           <div className="flex flex-col items-center w-full">

@@ -5,7 +5,7 @@ import ProfilePicture from './ProfilePicture';
 
 const ProfileMenu = () => {
   return (
-    <Menu as="div">
+    <Menu>
       <Menu.Button className="flex items-center ml-2 hover:cursor-pointer min-w-max">
         <ProfilePicture className="h-11 w-11" />
       </Menu.Button>

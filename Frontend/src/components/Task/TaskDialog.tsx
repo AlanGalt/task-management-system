@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import {
+  Bars3BottomLeftIcon,
   CalendarIcon,
   TagIcon,
   TrashIcon,
@@ -87,7 +88,7 @@ export const TaskDialog = ({
                         onChange={(e) => setTaskTitle(e.target.value)}
                         className={classNames(
                           { 'bg-transparent cursor-pointer outline-none': !isEditingTitle },
-                          'text-xl w-full px-2 -ml-2 font-medium rounded-md'
+                          'text-xl w-[calc(100%-5px)] px-2 -ml-2 font-medium rounded-md'
                         )}
                         onBlur={handleTitleBlur}
                         onClick={() => setIsEditingTitle(true)}
@@ -99,9 +100,12 @@ export const TaskDialog = ({
                     </div>
                     <div className="flex w-full gap-6">
                       <div className="flex flex-col items-start w-full gap-2">
-                        <label htmlFor="task-description" className="font-medium">
-                          Description
-                        </label>
+                        <div className="flex items-center gap-2">
+                          <Bars3BottomLeftIcon className="h-5" />
+                          <label htmlFor="project-description" className="font-medium">
+                            Description
+                          </label>
+                        </div>
                         {!isEditingDescription && description && (
                           <p
                             onClick={() => setIsEditingDescription(true)}

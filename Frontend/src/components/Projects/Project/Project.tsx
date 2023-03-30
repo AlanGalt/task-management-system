@@ -1,18 +1,17 @@
 import { useRef, useState } from 'react';
-import {
-  EllipsisHorizontalIcon,
-  FunnelIcon,
-  PlusIcon,
-  TrashIcon,
-  UserPlusIcon,
-} from '@heroicons/react/24/outline';
+import { FunnelIcon, PlusIcon, UserIcon, UserPlusIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 
 import List from '../../List';
 import { ProjectProps } from './Project.types';
+import ProjectMenu from '../ProjectMenu';
 
-const Project = ({ projectData, onRemove }: ProjectProps) => {
+const Project = ({ projectData, onDelete }: ProjectProps) => {
   const { title, description } = projectData;
+
+  // temporary solution to test the ui
+  // TODO: remove this
+  const [projectDescription, setProjectDescription] = useState(description);
 
   const [lists, setLists] = useState<string[]>([]);
   const [newListTitle, setNewListTitle] = useState('');
@@ -58,20 +57,22 @@ const Project = ({ projectData, onRemove }: ProjectProps) => {
           onClick={() => setIsEditingTitle(true)}
           readOnly={!isEditingTitle}
         />
-        <div className="flex gap-2">
+        <div className="relative flex gap-2">
           <div className="flex gap-2 pr-2 border-r-2 border-gray-200">
-            <button className="flex items-center gap-2 px-2 py-1 rounded-md bg-slate-100 h-9 hover:bg-slate-200">
+            <button className="flex items-center gap-1 px-2 py-1 rounded-md bg-slate-100 h-9 hover:bg-slate-200">
               <FunnelIcon className="w-7 h-7" />
               <span>Filter tasks</span>
             </button>
-            <button className="flex items-center gap-2 px-2 py-1 rounded-md bg-slate-100 h-9 hover:bg-slate-200">
+            <button className="flex items-center gap-1 px-2 py-1 rounded-md bg-slate-100 h-9 hover:bg-slate-200">
               <UserPlusIcon className="w-7 h-7" />
-              <span>Add members</span>
+              <span>Members</span>
             </button>
           </div>
-          <button className="p-1 rounded-md bg-slate-100 w-9 h-9 hover:bg-slate-200">
-            <EllipsisHorizontalIcon />
-          </button>
+          <ProjectMenu
+            description={projectDescription ?? ''}
+            onDelete={onDelete}
+            setDescription={setProjectDescription}
+          />
         </div>
       </div>
       {/* TODO: make scroll span from end to end of it's container & at the bottom*/}

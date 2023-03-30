@@ -1,6 +1,6 @@
 export interface ProjectProps {
   projectData: ProjectData;
-  onRemove: () => void;
+  onDelete: () => void;
 }
 
 export interface ProjectData {
