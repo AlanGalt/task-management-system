@@ -35,7 +35,7 @@ const List = ({ title, onRemove }: ListProps) => {
   };
 
   return (
-    <div className="flex flex-col flex-shrink-0 gap-2 p-2 rounded-md bg-base-300 w-72 h-fit">
+    <div className="flex flex-col flex-shrink-0 gap-2 p-2 rounded-md h-fit bg-base-300 w-72">
       <div className="flex justify-between gap-1 font-medium">
         <input
           value={listTitle}
@@ -57,7 +57,7 @@ const List = ({ title, onRemove }: ListProps) => {
       </div>
       <div className="flex flex-col gap-2">
         {tasks.map((task, index) => (
-          <Task key={index} title={task} onDelete={() => removeTask(index)} />
+          <Task key={index} title={task} listTitle={title} onDelete={() => removeTask(index)} />
         ))}
         {!isAddingTask ? (
           <button

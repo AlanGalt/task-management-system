@@ -13,20 +13,22 @@ import classNames from 'classnames';
 
 interface TaskDialogProps {
   isOpen: boolean;
-  onClose: () => void;
   title: string;
-  setTitle: (title: string) => void;
   description: string;
+  listTitle: string;
+  onClose: () => void;
+  setTitle: (title: string) => void;
   setDescription: (description: string) => void;
   onDelete: () => void;
 }
 
 export const TaskDialog = ({
   isOpen,
-  onClose,
   title,
-  setTitle,
   description,
+  listTitle,
+  onClose,
+  setTitle,
   setDescription,
   onDelete,
 }: TaskDialogProps) => {
@@ -79,17 +81,22 @@ export const TaskDialog = ({
                     <XMarkIcon className="h-5" />
                   </button>
                   <div className="w-full">
-                    <input
-                      value={taskTitle}
-                      onChange={(e) => setTaskTitle(e.target.value)}
-                      className={classNames(
-                        { 'bg-transparent cursor-pointer outline-none': !isEditingTitle },
-                        'text-xl w-full px-2 -ml-4 mb-8 font-medium rounded-md'
-                      )}
-                      onBlur={handleTitleBlur}
-                      onClick={() => setIsEditingTitle(true)}
-                      readOnly={!isEditingTitle}
-                    />
+                    <div className="flex flex-col items-start mb-8">
+                      <input
+                        value={taskTitle}
+                        onChange={(e) => setTaskTitle(e.target.value)}
+                        className={classNames(
+                          { 'bg-transparent cursor-pointer outline-none': !isEditingTitle },
+                          'text-xl w-full px-2 -ml-2 font-medium rounded-md'
+                        )}
+                        onBlur={handleTitleBlur}
+                        onClick={() => setIsEditingTitle(true)}
+                        readOnly={!isEditingTitle}
+                      />
+                      <span className="font-light cursor-default text-slate-600">
+                        in list <strong>{listTitle}</strong>
+                      </span>
+                    </div>
                     <div className="flex w-full gap-6">
                       <div className="flex flex-col items-start w-full gap-2">
                         <label htmlFor="task-description" className="font-medium">
@@ -128,15 +135,15 @@ export const TaskDialog = ({
                         <div className="flex flex-col items-center gap-2 pb-3 border-b-2 border-slate-300">
                           <button className="flex items-center justify-start w-32 gap-2 px-2 py-1 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-800">
                             <UserPlusIcon className="h-5" />
-                            <span>Members</span>
+                            <span>Assign</span>
                           </button>
                           <button className="flex items-center justify-start w-32 gap-2 px-2 py-1 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-800">
                             <CalendarIcon className="h-5" />
-                            <span>Date</span>
+                            <span>Set date</span>
                           </button>
                           <button className="flex items-center justify-start w-32 gap-2 px-2 py-1 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-800">
                             <TagIcon className="h-5" />
-                            <span>Labels</span>
+                            <span>Label</span>
                           </button>
                         </div>
                         <button

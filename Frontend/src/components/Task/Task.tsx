@@ -4,7 +4,7 @@ import React, { useState, useRef } from 'react';
 import { TaskProps } from './Task.types';
 import TaskDialog from './TaskDialog';
 
-const Task = ({ title, onDelete }: TaskProps) => {
+const Task = ({ title, listTitle, onDelete }: TaskProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [taskTitle, setTaskTitle] = useState(title);
   const [updatedTaskTitle, setUpdatedTaskTitle] = useState(title);
@@ -80,6 +80,7 @@ const Task = ({ title, onDelete }: TaskProps) => {
         title={taskTitle}
         setTitle={setTaskTitle}
         onDelete={onDelete}
+        listTitle={listTitle}
       />
     </>
   );
