@@ -1,5 +1,5 @@
 import { Listbox, Transition } from '@headlessui/react';
-import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
+import { CheckIcon, ChevronDownIcon, ChevronUpIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 import { Fragment, useState } from 'react';
 
@@ -112,7 +112,7 @@ const MembersPanel = ({ roles }: MembersPanelProps) => {
     <div className="flex flex-col w-full gap-4 px-8 py-6">
       <div className="flex justify-between w-full gap-2 pr-3">
         <input
-          placeholder="User Id"
+          placeholder="User id..."
           className="px-2 py-1 rounded-md w-36 bg-slate-100 focus:bg-white"
         />
         {renderListbox(newMemberRole, (newRole) => setNewMemberRole(newRole))}
@@ -131,7 +131,12 @@ const MembersPanel = ({ roles }: MembersPanelProps) => {
               <span className="text-sm font-light text-slate-500">{member.id}</span>
             </div>
           </div>
-          {renderListbox(member.role, (newRole) => handleRoleChange(member.id, newRole))}
+          <div className="flex gap-2">
+            {renderListbox(member.role, (newRole) => handleRoleChange(member.id, newRole))}
+            <button onClick={() => console.log('remove member request here')}>
+              <XMarkIcon className="h-5 text-slate-600 hover:text-slate-800" />
+            </button>
+          </div>
         </div>
       ))}
     </div>

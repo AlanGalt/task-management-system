@@ -17,22 +17,6 @@ const MembersDialog = ({ isOpen, onClose }: MembersDialogProps) => {
     },
     { name: 'Collaborator', permissions: [Permission.Test1, Permission.Test2] },
     { name: 'Viewer', permissions: [Permission.Test3] },
-    // { name: 'Viewer1', permissions: [Permission.Test3] },
-    // { name: 'Viewer2', permissions: [Permission.Test3] },
-    // { name: 'Viewer3', permissions: [Permission.Test3] },
-    // { name: 'Viewer4', permissions: [Permission.Test3] },
-    // { name: 'Viewer5', permissions: [Permission.Test3] },
-    // { name: 'Viewer6', permissions: [Permission.Test3] },
-    // { name: 'Viewer7', permissions: [Permission.Test3] },
-    // { name: 'Viewer8', permissions: [Permission.Test3] },
-    // { name: 'Viewer9', permissions: [Permission.Test3] },
-    // { name: 'Viewer10', permissions: [Permission.Test3] },
-    // { name: 'Viewer11', permissions: [Permission.Test3] },
-    // { name: 'Viewer12', permissions: [Permission.Test3] },
-    // { name: 'Viewer13', permissions: [Permission.Test3] },
-    // { name: 'Viewer14', permissions: [Permission.Test3] },
-    // { name: 'Viewer15', permissions: [Permission.Test3] },
-    // { name: 'Viewer16', permissions: [Permission.Test3] },
   ]);
 
   const setPermissions = (roleName: string, permissions: Permission[]) => {

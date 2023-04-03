@@ -110,7 +110,6 @@ const RolesPanel = ({ roles, addRole, setPermissions }: RolesPanelProps) => {
                 value={newRoleName}
                 onChange={(e) => setNewRoleName(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && addNewRole()}
-                // ref={addRoleInputRef}
               />
               <div className="flex gap-2">
                 <button
@@ -162,7 +161,7 @@ const RolesPanel = ({ roles, addRole, setPermissions }: RolesPanelProps) => {
         ) : (
           <div className="flex items-center w-full h-full border-2 border-dashed rounded-md border-slate-400">
             <span className="select-none text-slate-400">
-              Click an existing role or create a new one to edit permissions
+              Click on existing role or create a new one to edit permissions
             </span>
           </div>
         )}
