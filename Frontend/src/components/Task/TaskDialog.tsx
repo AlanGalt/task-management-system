@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import {
   Bars3BottomLeftIcon,
@@ -49,11 +49,11 @@ export const TaskDialog = ({
   };
 
   return (
-    <Transition show={isOpen} as={React.Fragment}>
+    <Transition show={isOpen} as={Fragment}>
       <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto" onClose={onClose}>
         <div className="min-h-screen px-4 text-center">
           <Transition.Child
-            as={React.Fragment}
+            as={Fragment}
             enter="ease-out duration-200"
             enterFrom="opacity-0"
             enterTo="opacity-100"
@@ -64,7 +64,7 @@ export const TaskDialog = ({
             <Dialog.Overlay className="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" />
           </Transition.Child>
           <Transition.Child
-            as={React.Fragment}
+            as={Fragment}
             enter="ease-out duration-200"
             enterFrom="opacity-0 scale-95"
             enterTo="opacity-100 scale-100"

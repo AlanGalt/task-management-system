@@ -1,4 +1,4 @@
-import { EllipsisHorizontalIcon, PlusIcon } from '@heroicons/react/24/outline';
+import { EllipsisHorizontalIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 import React, { useRef, useState } from 'react';
 
@@ -18,6 +18,7 @@ const List = ({ title, onRemove }: ListProps) => {
 
   const addNewTask = () => {
     if (!newTaskTitle) return;
+
     setTasks([...tasks, newTaskTitle]);
     setNewTaskTitle('');
     addTaskInputRef.current?.focus();
@@ -48,11 +49,9 @@ const List = ({ title, onRemove }: ListProps) => {
           onClick={() => setIsEditingTitle(true)}
           readOnly={!isEditingTitle}
         />
-        <button
-          onClick={() => console.log('ADD LIST OPTIONS POPOVER HERE')}
-          className="p-1 rounded-md hover:cursor-pointer hover:bg-white"
-        >
-          <EllipsisHorizontalIcon className="h-5" />
+        {/* TODO: ADD CONFIRM DIALOG */}
+        <button onClick={onRemove} className="p-1 rounded-md hover:cursor-pointer hover:bg-white">
+          <TrashIcon className="h-5" />
         </button>
       </div>
       <div className="flex flex-col gap-2">
