@@ -109,8 +109,8 @@ const MembersPanel = ({ roles }: MembersPanelProps) => {
   };
 
   return (
-    <div className="flex flex-col w-full gap-4 px-8 py-6">
-      <div className="flex justify-between w-full gap-2 pr-3">
+    <div className="flex flex-col w-full gap-4 py-6 pl-8 pr-11">
+      <div className="flex justify-between w-full gap-2">
         <input
           placeholder="User id..."
           className="px-2 py-1 rounded-md w-36 bg-slate-100 focus:bg-white"
