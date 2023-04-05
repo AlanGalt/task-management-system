@@ -3,8 +3,8 @@ import { CheckIcon, ChevronDownIcon, ChevronUpIcon, XMarkIcon } from '@heroicons
 import classNames from 'classnames';
 import { Fragment, useState } from 'react';
 
-import { Role } from './MembersDialog.types';
 import ProfilePicture from '../../ProfilePicture';
+import { Role } from './MembersDialog.types';
 
 interface MembersPanelProps {
   roles: Role[];
@@ -33,7 +33,6 @@ const MembersPanel = ({ roles }: MembersPanelProps) => {
   // TODO: maybe add predifined roles to context
   // just for testing
   const [newMemberRole, setNewMemberRole] = useState<Role>(roles[2]);
-
   // The project must have at least 1 admin
   // TODO: modify the interface so that admin can't change his role if he's the only one
   // const adminCount = useMemo(
@@ -123,6 +122,7 @@ const MembersPanel = ({ roles }: MembersPanelProps) => {
       {members.map((member, index) => (
         <div key={index} className="flex items-center justify-between w-full">
           <div className="flex items-center justify-start gap-3">
+            {/* TODO: replace src with actual user pictures */}
             <ProfilePicture className="w-10 h-10" />
             <div className="flex flex-col items-start justify-center">
               <span>

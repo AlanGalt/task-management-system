@@ -1,13 +1,21 @@
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
+import { useAuthState, useSignOut } from 'react-firebase-hooks/auth';
 
+import { auth } from '../App';
 import ProfilePicture from './ProfilePicture';
 
 const ProfileMenu = () => {
+  const [user] = useAuthState(auth as any);
+  const [signOut] = useSignOut(auth as any);
+
   return (
     <Menu>
       <Menu.Button className="flex items-center ml-2 hover:cursor-pointer min-w-max">
-        <ProfilePicture className="h-11 w-11" />
+        <ProfilePicture
+          // src={user?.photoURL}
+          className="h-11 w-11"
+        />
       </Menu.Button>
 
       <Transition
@@ -22,11 +30,24 @@ const ProfileMenu = () => {
         <Menu.Items className="absolute right-0 z-10 flex-col w-64 py-3 shadow-xl bg-white top-[calc(100%+4px)]">
           <div className="pb-3 border-b-2 border-base-300">
             <div className="flex justify-center">
-              <ProfilePicture className="w-20 h-20" />
+              <ProfilePicture
+                // src={user?.photoURL}
+                className="w-20 h-20"
+              />
             </div>
             <div className="mt-3 text-center">
-              <h1 className="font-bold">Mr. Pepega</h1>
-              <h1>pepega@gmail.com</h1>
+              <h1 className="font-bold">
+                {
+                  // user?.displayName
+                  'Pepega'
+                }
+              </h1>
+              <h1>
+                {
+                  // user?.email
+                  'Pepega@gmail.com'
+                }
+              </h1>
             </div>
           </div>
 
@@ -40,12 +61,12 @@ const ProfileMenu = () => {
               </a>
             </Menu.Item>
             <Menu.Item as="div" className="flex justify-center mt-2 ">
-              <a
-                href="#"
+              <button
+                onClick={() => signOut()}
                 className="px-3 py-1 border-2 rounded-sm border-base-300 hover:bg-base-200"
               >
                 Sign out
-              </a>
+              </button>
             </Menu.Item>
           </div>
         </Menu.Items>
