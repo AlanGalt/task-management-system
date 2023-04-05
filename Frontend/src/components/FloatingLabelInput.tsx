@@ -51,8 +51,9 @@ const FloatingLabelInput = ({
             ' text-blue-500 ': isFocused,
             'bg-white -translate-y-9 -translate-x-[0.3rem] scale-[0.8] px-1 ':
               hasValue || isFocused,
+            'text-slate-500 ': !isFocused,
           },
-          'text-slate-500 pointer-events-none absolute top-1/2 -translate-y-1/2 left-4 max-w-[90%] origin-[0_0] truncate transition-all duration-200 ease-out'
+          'pointer-events-none absolute top-1/2 -translate-y-1/2 left-4 max-w-[90%] origin-[0_0] truncate transition-all duration-200 ease-out'
         )}
       >
         {label}
