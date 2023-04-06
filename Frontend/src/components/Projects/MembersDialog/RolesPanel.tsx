@@ -159,9 +159,9 @@ const RolesPanel = ({ roles, addRole, setPermissions }: RolesPanelProps) => {
             </div>
           ))
         ) : (
-          <div className="flex items-center w-full h-full border-2 border-dashed rounded-md border-slate-400">
+          <div className="flex items-center w-full h-full px-2 border-2 border-dashed rounded-md border-slate-400">
             <span className="select-none text-slate-400">
-              Click on existing role or create a new one to edit permissions
+              Click on existing role or create a new one to see it&apos;s permissions
             </span>
           </div>
         )}

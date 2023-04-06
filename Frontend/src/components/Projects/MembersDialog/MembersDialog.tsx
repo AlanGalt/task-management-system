@@ -57,7 +57,7 @@ const MembersDialog = ({ isOpen, onClose }: MembersDialogProps) => {
           >
             <div className="fixed inset-0 overflow-y-auto">
               <div className="flex items-center justify-center min-h-full p-4">
-                <Dialog.Panel className="relative z-20 flex w-1/3 gap-6 mx-auto bg-white rounded-md rounded-tl-none text-base-content">
+                <Dialog.Panel className="relative z-20 flex w-5/12 gap-6 mx-auto bg-white rounded-md rounded-tl-none text-base-content">
                   <button
                     onClick={onClose}
                     className="absolute p-2 rounded-full top-1 right-1 w-fit hover:bg-gray-200"

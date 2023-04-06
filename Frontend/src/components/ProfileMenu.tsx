@@ -52,14 +52,14 @@ const ProfileMenu = () => {
           </div>
 
           <div>
-            <Menu.Item as="div" className="flex justify-center mt-3">
+            {/* <Menu.Item as="div" className="flex justify-center mt-3">
               <a
                 href="#"
                 className="px-3 py-1 border-2 rounded-full border-base-300 hover:bg-base-200 "
               >
                 Manage your account
               </a>
-            </Menu.Item>
+            </Menu.Item> */}
             <Menu.Item as="div" className="flex justify-center mt-2 ">
               <button
                 onClick={() => signOut()}

@@ -56,6 +56,7 @@ const Login = () => {
 
       if (!user || !user.user) throw new Error('Could not sign in');
 
+      // TODO: need to check if the user exists here and add him if not
       if (isSignUp) {
         await db.collection('users').doc(user.user.uid).set({
           uid: user.user.uid,

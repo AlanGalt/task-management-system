@@ -111,8 +111,8 @@ const MembersPanel = ({ roles }: MembersPanelProps) => {
     <div className="flex flex-col w-full gap-4 py-6 pl-8 pr-11">
       <div className="flex justify-between w-full gap-2">
         <input
-          placeholder="User id..."
-          className="px-2 py-1 rounded-md w-36 bg-slate-100 focus:bg-white"
+          placeholder="Email address"
+          className="flex-1 px-2 py-1 rounded-md bg-slate-100 focus:bg-white"
         />
         {renderListbox(newMemberRole, (newRole) => setNewMemberRole(newRole))}
         <button className="px-3 py-1 text-white bg-green-400 rounded-md hover:bg-green-500">
