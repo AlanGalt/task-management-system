@@ -1,26 +1,20 @@
-import { NavLink } from 'react-router-dom';
-
-import { Menu } from '@headlessui/react';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-
-import classNames from 'classnames';
-
 import Logo from './Logo';
 import ProfileMenu from './ProfileMenu';
 import Notifications from './Notifications';
+import { Link } from 'react-router-dom';
 
-const navigation = [
-  { name: 'Dashboard', to: '/dashboard' },
-  { name: 'My Tasks', to: '/my-tasks' },
-  { name: 'Calendar', to: '/calendar' },
-  { name: 'Analytics', to: '/analytics' },
-];
+// const navigation = [
+//   { name: 'Dashboard', to: '/dashboard' },
+//   { name: 'My Tasks', to: '/my-tasks' },
+//   { name: 'Calendar', to: '/calendar' },
+//   { name: 'Analytics', to: '/analytics' },
+// ];
 
 const Header = () => {
   return (
     <nav className="relative flex items-center justify-between p-1 px-4 bg-white border-b-4 h-14 border-base-300">
       {/* Responsive */}
-      <Menu as="div" className="block md:hidden">
+      {/* <Menu as="div" className="block md:hidden">
         {({ open }) => (
           <>
             <Menu.Button className="flex">
@@ -56,14 +50,17 @@ const Header = () => {
             </Menu.Items>
           </>
         )}
-      </Menu>
+      </Menu> */}
 
       {/* Left side */}
-      <div className="flex items-center justify-center">
+      <Link
+        to={'/dashboard'}
+        className="flex items-center justify-center px-3 py-1 rounded-md cursor-pointer hover:bg-slate-100"
+      >
         <Logo />
 
         {/* Navigation links */}
-        <div className="hidden ml-8 md:block">
+        {/* <div className="hidden ml-8 md:block">
           <div>
             {navigation.map((item) => (
               <NavLink
@@ -83,8 +80,8 @@ const Header = () => {
               </NavLink>
             ))}
           </div>
-        </div>
-      </div>
+        </div> */}
+      </Link>
 
       {/* Right side */}
       <div className="flex items-center">

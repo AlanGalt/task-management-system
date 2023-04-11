@@ -1,6 +1,6 @@
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface FloatingLabelInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -16,11 +16,14 @@ const FloatingLabelInput = ({
   const [isFocused, setIsFocused] = useState(false);
   const [hasValue, setHasValue] = useState(false);
 
+  useEffect(() => {
+    setHasValue(value === '' ? false : true);
+  }, [value]);
+
   const [isShowingPassword, setIsShowingPassword] = useState(false);
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     setIsFocused(false);
-    setHasValue(e.target.value !== '' ? true : false);
   };
 
   return (

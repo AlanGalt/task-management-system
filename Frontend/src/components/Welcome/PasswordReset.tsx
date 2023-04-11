@@ -11,15 +11,11 @@ const PasswordReset = () => {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
-  const handlePasswordReset = async () => {
-    try {
-      await auth.sendPasswordResetEmail(email);
-      setMessage('Password reset email sent. Please check your inbox.');
-      setError('');
-    } catch (err) {
-      setMessage('');
-      setError('Error sending password reset email. Please try again.');
-    }
+  const handlePasswordReset = () => {
+    auth
+      .sendPasswordResetEmail(email)
+      .then(() => setMessage('Password reset email sent. Please check your inbox.'))
+      .catch(() => setError('Error sending password reset email. Please try again.'));
   };
 
   return (

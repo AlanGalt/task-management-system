@@ -11,13 +11,16 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { ProjectMenuProps } from './ProjectMenu.types';
 
 // TODO: pick a better name
-const ProjectMenu = ({ description, onDelete, setDescription }: ProjectMenuProps) => {
+const ProjectMenu = ({ description, onDelete, updateDescription }: ProjectMenuProps) => {
   const [isEditingDescription, setIsEditingDescription] = useState(false);
   const [projectDescription, setProjectDescription] = useState(description);
 
   const handeDescriptionBlur = () => {
     setIsEditingDescription(false);
-    setDescription(projectDescription);
+
+    if (projectDescription === description) return;
+
+    updateDescription(projectDescription);
   };
 
   return (
@@ -38,9 +41,7 @@ const ProjectMenu = ({ description, onDelete, setDescription }: ProjectMenuProps
           <div className="flex flex-col items-start w-full gap-2 pb-2 border-b-2 border-slate-200">
             <div className="flex items-center gap-2">
               <Bars3BottomLeftIcon className="h-5" />
-              <label htmlFor="project-description" className="font-medium">
-                Description
-              </label>
+              <span className="font-medium">Description</span>
             </div>
             {!isEditingDescription && description && (
               <p
@@ -73,9 +74,7 @@ const ProjectMenu = ({ description, onDelete, setDescription }: ProjectMenuProps
           </div>
           <div className="flex items-center gap-8">
             <div className="flex flex-col">
-              <label htmlFor="project-description" className="font-medium">
-                Delete this project
-              </label>
+              <span className="font-medium">Delete this project</span>
               <span>
                 Once you delete a project, there is no going back. <br /> Please be certain.
               </span>

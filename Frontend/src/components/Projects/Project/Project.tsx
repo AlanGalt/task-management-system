@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
-import { FunnelIcon, PlusIcon, UserIcon, UserPlusIcon } from '@heroicons/react/24/outline';
+import { useNavigate } from 'react-router-dom';
+import { FunnelIcon, PlusIcon, UserIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 
 import List from '../../List';
@@ -7,12 +8,8 @@ import { ProjectProps } from './Project.types';
 import ProjectMenu from '../ProjectMenu';
 import MembersDialog from '../MembersDialog';
 
-const Project = ({ projectData, onDelete }: ProjectProps) => {
-  const { title, description } = projectData;
-
-  // temporary solution to test the ui
-  // TODO: remove this
-  const [projectDescription, setProjectDescription] = useState(description);
+const Project = ({ projectData, onDelete, onUpdate }: ProjectProps) => {
+  const { id, title, description } = projectData;
 
   const [lists, setLists] = useState<string[]>([]);
   const [newListTitle, setNewListTitle] = useState('');
@@ -23,6 +20,8 @@ const Project = ({ projectData, onDelete }: ProjectProps) => {
 
   const addListButtonRef = useRef<HTMLButtonElement | null>(null);
   const addListInputRef = useRef<HTMLInputElement | null>(null);
+
+  const navigate = useNavigate();
 
   const addList = () => {
     if (!newListTitle) return;
@@ -43,6 +42,23 @@ const Project = ({ projectData, onDelete }: ProjectProps) => {
     setNewListTitle('');
   };
 
+  const updateTitle = () => {
+    setIsEditingTitle(false);
+
+    if (projectTitle === title) return;
+
+    onUpdate(id, { title: projectTitle });
+  };
+
+  const updateDescription = (newDescription: string) => {
+    onUpdate(id, { description: newDescription });
+  };
+
+  const deleteProject = () => {
+    onDelete(id);
+    navigate('/');
+  };
+
   return (
     <>
       <div className="flex flex-col w-full h-full p-4">
@@ -53,10 +69,10 @@ const Project = ({ projectData, onDelete }: ProjectProps) => {
             value={projectTitle}
             onChange={(e) => setProjectTitle(e.target.value)}
             className={classNames(
-              { 'bg-transparent cursor-pointer outline-none': !isEditingTitle },
+              { 'bg-transparent cursor-pointer outline-none hover:bg-slate-100': !isEditingTitle },
               'text-2xl px-2 font-bold rounded-md'
             )}
-            onBlur={() => setIsEditingTitle(false)}
+            onBlur={updateTitle}
             onClick={() => setIsEditingTitle(true)}
             readOnly={!isEditingTitle}
           />
@@ -75,9 +91,9 @@ const Project = ({ projectData, onDelete }: ProjectProps) => {
               </button>
             </div>
             <ProjectMenu
-              description={projectDescription ?? ''}
-              onDelete={onDelete}
-              setDescription={setProjectDescription}
+              description={description ?? ''}
+              onDelete={deleteProject}
+              updateDescription={updateDescription}
             />
           </div>
         </div>

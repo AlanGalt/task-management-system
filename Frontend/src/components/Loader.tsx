@@ -1,8 +1,12 @@
 import loader from '../assets/Loader.svg';
 
-const Loader = () => {
+interface LoaderProps {
+  className?: string;
+}
+
+const Loader = ({ className }: LoaderProps) => {
   return (
-    <div className="flex items-center justify-center w-screen h-screen">
+    <div className={`flex items-center justify-center ${className}`}>
       <img src={loader} />
     </div>
   );

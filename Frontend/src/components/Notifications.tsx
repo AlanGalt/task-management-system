@@ -48,7 +48,7 @@ const Notifications = () => {
         <>
           <Popover.Button className="relative p-2 rounded-full outline-none hover:bg-base-300 hover:cursor-pointer">
             {open ? <BellIconSolid className="h-7" /> : <BellIcon className="h-7" />}
-            <div className="absolute w-3 h-3 border-2 rounded-full border-white bg-error top-2 right-3"></div>
+            <div className="absolute w-3 h-3 border-2 border-white rounded-full bg-error top-2 right-3"></div>
           </Popover.Button>
 
           <Transition
@@ -68,8 +68,8 @@ const Notifications = () => {
                 </a>
               </div>
               <div className="overflow-y-auto max-h-[calc(100%-(3.25rem+2px))]">
-                {notifications.map((item) => (
-                  <div className="relative p-3 hover:bg-base-200 hover:cursor-pointer">
+                {notifications.map((item, index) => (
+                  <div key={index} className="relative p-3 hover:bg-base-200 hover:cursor-pointer">
                     <div className="ml-5">
                       <h1>{item.content}</h1>
                       <h1>{item.timeStamp.toLocaleString()}</h1>

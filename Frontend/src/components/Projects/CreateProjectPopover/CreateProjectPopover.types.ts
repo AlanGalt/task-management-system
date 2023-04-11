@@ -1,5 +1,5 @@
 import { ProjectData } from '../Project/Project.types';
 
 export interface CreateProjectPopoverProps {
-  onSubmit: (projectData: ProjectData) => void;
+  onSubmit: (newProject: Partial<ProjectData>) => void;
 }

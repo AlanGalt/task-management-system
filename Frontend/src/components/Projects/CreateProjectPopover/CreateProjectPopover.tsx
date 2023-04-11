@@ -5,7 +5,10 @@ import { CreateProjectPopoverProps } from './CreateProjectPopover.types';
 import { ProjectData } from '../Project/Project.types';
 
 const CreateProjectPopover = ({ onSubmit }: CreateProjectPopoverProps) => {
-  const [projectData, setProjectData] = useState<ProjectData>({ title: '', description: '' });
+  const [projectData, setProjectData] = useState<Partial<ProjectData>>({
+    title: '',
+    description: '',
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setProjectData({ ...projectData, [e.target.name]: e.target.value });
@@ -40,6 +43,7 @@ const CreateProjectPopover = ({ onSubmit }: CreateProjectPopoverProps) => {
               value={projectData.title}
               onChange={handleChange}
               className="p-2 border rounded-md border-slate-400"
+              autoComplete="off"
               required
               autoFocus
             />

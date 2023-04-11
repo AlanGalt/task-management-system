@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import firebase from 'firebase/compat/app';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { updateProfile } from 'firebase/auth';
 
 import googleLogo from '../../assets/GoogleLogo.svg';
 import Loader from '../Loader';
@@ -19,56 +20,64 @@ const Login = () => {
   const navigate = useNavigate();
 
   const signUpWithEmail = async () => {
-    try {
-      const user = await auth.createUserWithEmailAndPassword(email, password);
+    const user = await auth.createUserWithEmailAndPassword(email, password).catch(console.error);
 
-      if (!user?.user) throw new Error('User could not be created');
+    if (!user?.user) {
+      console.error('User could not be created');
+      return;
+    }
 
-      await db.collection('users').doc(user.user.uid).set({
+    await db
+      .collection('users')
+      .doc(user.user.uid)
+      .set({
         uid: user.user.uid,
         email: user.user.email,
         name,
-      });
+      })
+      .catch(console.error);
 
-      navigate('/dashboard');
-    } catch (error) {
-      console.error('Error during registration:', error);
-    }
+    await updateProfile(user.user, { displayName: name }).catch(console.error);
+
+    navigate('/dashboard');
   };
 
   const logInWithEmail = async () => {
-    try {
-      const user = await auth.signInWithEmailAndPassword(email, password);
+    const user = await auth.signInWithEmailAndPassword(email, password).catch(console.error);
 
-      if (!user) throw new Error('Could not sign in');
-
-      navigate('/dashboard');
-    } catch (error) {
-      console.error(error);
+    if (!user?.user) {
+      console.error('Could not sign in');
+      return;
     }
+
+    navigate('/dashboard');
   };
 
   const handleContinueWithGoogle = async () => {
-    try {
-      const googleProvider = new firebase.auth.GoogleAuthProvider();
-      await auth.signInWithRedirect(googleProvider);
-      const user = await auth.getRedirectResult();
+    const googleProvider = new firebase.auth.GoogleAuthProvider();
+    await auth.signInWithRedirect(googleProvider).catch(console.error);
+    const user = await auth.getRedirectResult().catch(console.error);
 
-      if (!user || !user.user) throw new Error('Could not sign in');
+    if (!user?.user) {
+      console.error('Could not sign in');
+      return;
+    }
 
-      // TODO: need to check if the user exists here and add him if not
-      if (isSignUp) {
-        await db.collection('users').doc(user.user.uid).set({
+    // TODO: need to check if the user exists here and add him if not
+    if (isSignUp) {
+      await db
+        .collection('users')
+        .doc(user.user.uid)
+        .set({
           uid: user.user.uid,
           email: user.user.email,
           photo: user.user.photoURL,
           name: user.user.displayName,
-        });
-      }
-      navigate('/dashboard');
-    } catch (error) {
-      console.error(error);
+        })
+        .catch(console.error);
     }
+
+    navigate('/dashboard');
   };
 
   if (isLoading) {
