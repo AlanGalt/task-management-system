@@ -1,16 +1,45 @@
 import { CheckIcon, PencilIcon } from '@heroicons/react/24/outline';
-import React, { useState, useRef } from 'react';
+import { Badge } from '@mantine/core';
+import { DatePickerInput } from '@mantine/dates';
+import classNames from 'classnames';
+import React, { useState, useRef, useEffect, useContext } from 'react';
+import { Draggable } from 'react-beautiful-dnd';
 
-import { TaskProps } from './Task.types';
+import ProfilePicture from '../ProfilePicture';
+import MembersContext from '../../contexts/MembersContext';
+import { Permission } from '../Projects/Project/Project.types';
+import { Dates, TaskProps } from './Task.types';
 import TaskDialog from './TaskDialog';
+import LabelsContext from '../../contexts/LabelsContext';
 
-const Task = ({ title, listTitle, onDelete }: TaskProps) => {
+const Task = ({ taskData, listTitle, permit, index, onDelete, onUpdate }: TaskProps) => {
+  const { id, title, description, assignedMembersUid, startDate, dueDate, completed, labelIds } =
+    taskData;
+
+  const labels = useContext(LabelsContext);
+  const members = useContext(MembersContext);
+
+  const assignedMembers = members?.filter((m) => assignedMembersUid.includes(m.uid));
+  const taskLabels = labels?.filter((label) => labelIds.includes(label.id));
+
+  const startDateObj = startDate ? new Date(startDate.toDate()) : null;
+  const dueDateObj = dueDate ? new Date(dueDate.toDate()) : null;
+
+  const dates = [startDateObj, dueDateObj] as Dates;
+
+  const shouldRenderSubsection =
+    !!assignedMembers?.length || !!dates[0] || !!dates[1] || !!taskLabels?.length;
+
   const [isEditing, setIsEditing] = useState(false);
   const [taskTitle, setTaskTitle] = useState(title);
   const [updatedTaskTitle, setUpdatedTaskTitle] = useState(title);
-
-  const [taskDescription, setTaskDescription] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  useEffect(() => {
+    if (title === taskTitle) return;
+
+    setTaskTitle(title);
+  }, [title]);
 
   const saveButtonRef = useRef<HTMLButtonElement | null>(null);
   const editButtonRef = useRef<HTMLButtonElement | null>(null);
@@ -18,10 +47,6 @@ const Task = ({ title, listTitle, onDelete }: TaskProps) => {
   const handleEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     setIsEditing(true);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUpdatedTaskTitle(e.target.value);
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -33,17 +58,47 @@ const Task = ({ title, listTitle, onDelete }: TaskProps) => {
 
   const handleSave = () => {
     if (!updatedTaskTitle) return;
+
+    onUpdate({ title: updatedTaskTitle });
     setTaskTitle(updatedTaskTitle);
     setIsEditing(false);
   };
 
+  const getDateColor = () => {
+    if (completed) {
+      return 'green';
+    }
+
+    if (!dates[1]) {
+      return;
+    }
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    if (dates[1].getTime() === today.getTime()) {
+      return 'orange';
+    }
+
+    if (dates[1].getTime() === tomorrow.getTime()) {
+      return 'yellow';
+    }
+
+    if (dates[1] < today) {
+      return 'red';
+    }
+  };
+
   return isEditing ? (
-    <div className="flex items-center justify-between gap-2">
+    <div className="flex items-center justify-between gap-2 mb-2 ">
       <input
         value={updatedTaskTitle}
-        onChange={handleChange}
+        onChange={(e) => setUpdatedTaskTitle(e.target.value)}
         onBlur={handleBlur}
-        className="w-full p-2 rounded-md h-11"
+        className="w-full h-10 px-2 py-1 rounded-md"
+        onKeyDown={(e) => e.key === 'Enter' && handleSave()}
         autoFocus
       />
       <button
@@ -57,30 +112,93 @@ const Task = ({ title, listTitle, onDelete }: TaskProps) => {
     </div>
   ) : (
     <>
-      <div
-        onClick={() => setIsDialogOpen(true)}
-        className="flex items-center justify-between p-2 bg-white rounded-md cursor-pointer group"
-      >
-        <span>{taskTitle}</span>
-        <div className="flex">
-          <button
-            className="invisible p-1 rounded-md hover:cursor-pointer group-hover:visible hover:bg-base-200"
-            onClick={handleEdit}
-            ref={editButtonRef}
+      <Draggable draggableId={id} index={index}>
+        {(provided) => (
+          <div
+            {...(permit[Permission.EditTasks] && provided.draggableProps)}
+            {...provided.dragHandleProps}
+            ref={provided.innerRef}
+            onClick={() => setIsDialogOpen(true)}
+            className="relative flex flex-col items-center justify-between gap-3 mb-2 p-2 bg-white rounded-md !cursor-pointer group shadow-sm shadow-slate-400 hover:bg-slate-50"
           >
-            <PencilIcon className="h-5" />
-          </button>
-        </div>
-      </div>
+            <div className="flex items-center justify-between w-full">
+              <span>{taskTitle}</span>
+              {permit[Permission.EditTasks] && (
+                <div>
+                  <button
+                    className="absolute invisible p-1 bg-transparent rounded-md top-1 right-1 group-hover:visible hover:bg-slate-200"
+                    onClick={handleEdit}
+                    ref={editButtonRef}
+                  >
+                    <PencilIcon className="h-5" />
+                  </button>
+                </div>
+              )}
+            </div>
+            {shouldRenderSubsection && (
+              <div className="flex flex-wrap items-center justify-between w-full gap-3">
+                {!!assignedMembers?.length && (
+                  <div className="flex flex-wrap items-center gap-1">
+                    {assignedMembers?.map((member) => (
+                      <ProfilePicture key={member.uid} src={member.photoURL} className="h-7" />
+                    ))}
+                  </div>
+                )}
+                {!!taskLabels?.length && (
+                  <div className="flex flex-wrap gap-1">
+                    {taskLabels?.map((label) => (
+                      <div
+                        className={`${label.color} min-w-[2.5rem] max-w-full h-6 flex items-center rounded-md px-1 py-1`}
+                      >
+                        <span className="font-extrabold text-white truncate">{label.title}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {(dates[0] || dates[1]) && (
+                  <div className="flex items-center justify-center">
+                    <Badge
+                      variant="filled"
+                      radius="sm"
+                      color={getDateColor()}
+                      className={classNames({ 'bg-yellow-400': getDateColor() === 'yellow' })}
+                      size="lg"
+                    >
+                      <DatePickerInput
+                        type={dates[0] && dates[1] ? 'range' : 'default'}
+                        valueFormat={`MMM D${
+                          dates[0]?.getFullYear() !== dates[1]?.getFullYear() ? ', YYYY' : ''
+                        }`}
+                        allowSingleDateInRange
+                        value={dates.filter((d) => d) as Dates}
+                        readOnly
+                        className="white-text-date no-border-date"
+                      />
+                    </Badge>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+      </Draggable>
+      {/* TODO: make props more consise everywhere in the project */}
       <TaskDialog
         isOpen={isDialogOpen}
-        description={taskDescription}
-        setDescription={setTaskDescription}
-        onClose={() => setIsDialogOpen(false)}
+        description={description ?? ''}
         title={taskTitle}
-        setTitle={setTaskTitle}
-        onDelete={onDelete}
         listTitle={listTitle}
+        permit={permit}
+        taskLabels={taskLabels ?? []}
+        assignedMembersUid={assignedMembersUid}
+        dates={dates}
+        completed={completed}
+        labelIds={labelIds}
+        setDescription={(newDescription) => onUpdate({ description: newDescription })}
+        setTitle={(newTitle) => onUpdate({ title: newTitle })}
+        onClose={() => setIsDialogOpen(false)}
+        onUpdate={onUpdate}
+        onDelete={onDelete}
       />
     </>
   );
