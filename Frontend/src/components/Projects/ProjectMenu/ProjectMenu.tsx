@@ -1,24 +1,35 @@
 import { Popover, Transition } from '@headlessui/react';
 import {
-  Bars3BottomLeftIcon,
+  ArrowRightOnRectangleIcon,
   EllipsisHorizontalIcon,
   TrashIcon,
 } from '@heroicons/react/24/outline';
-import classNames from 'classnames';
-import { Fragment, useState } from 'react';
-import TextareaAutosize from 'react-textarea-autosize';
 
+import { Fragment, useEffect, useState } from 'react';
+
+import EditableDescription from '../../EditableDescription';
+
+import { Permission } from '../Project/Project.types';
 import { ProjectMenuProps } from './ProjectMenu.types';
 
 // TODO: pick a better name
-const ProjectMenu = ({ description, onDelete, updateDescription }: ProjectMenuProps) => {
-  const [isEditingDescription, setIsEditingDescription] = useState(false);
+const ProjectMenu = ({
+  description,
+  permit,
+  onDelete,
+  onLeave,
+  updateDescription,
+}: ProjectMenuProps) => {
   const [projectDescription, setProjectDescription] = useState(description);
 
-  const handeDescriptionBlur = () => {
-    setIsEditingDescription(false);
+  useEffect(() => {
+    if (description === projectDescription) return;
 
-    if (projectDescription === description) return;
+    setProjectDescription(description);
+  }, [description]);
+
+  const handleDescriptionBlur = () => {
+    if (description === projectDescription) return;
 
     updateDescription(projectDescription);
   };
@@ -37,55 +48,42 @@ const ProjectMenu = ({ description, onDelete, updateDescription }: ProjectMenuPr
         leaveFrom="transform scale-100 opacity-100"
         leaveTo="transform scale-95 opacity-0"
       >
-        <Popover.Panel className="flex flex-col gap-2 items-center absolute right-0 z-10 top-[calc(100%+4px)] shadow-xl bg-white w-max p-4">
-          <div className="flex flex-col items-start w-full gap-2 pb-2 border-b-2 border-slate-200">
-            <div className="flex items-center gap-2">
-              <Bars3BottomLeftIcon className="h-5" />
-              <span className="font-medium">Description</span>
-            </div>
-            {!isEditingDescription && description && (
-              <p
-                onClick={() => setIsEditingDescription(true)}
-                className="font-light text-left cursor-pointer"
+        <Popover.Panel className="flex flex-col items-center absolute right-0 z-10 top-[calc(100%+4px)] shadow-xl bg-white w-max p-4">
+          <EditableDescription
+            title="project"
+            description={projectDescription}
+            hasPermission={permit[Permission.EditProject]}
+            setDescription={setProjectDescription}
+            onBlur={handleDescriptionBlur}
+          />
+          {permit[Permission.DeleteProject] && (
+            <div className="flex items-center justify-between w-full gap-8 pb-4 mt-4 border-b-2 border-slate-200">
+              <div className="flex flex-col">
+                <span className="font-medium">Delete this project</span>
+                <span>
+                  Once you delete a project, there is no going back. <br /> Please be certain.
+                </span>
+              </div>
+              <button
+                onClick={onDelete}
+                className="flex items-center justify-center gap-1 px-2 py-2 font-medium text-white bg-red-500 rounded-md hover:bg-red-600 h-fit"
               >
-                {description}
-              </p>
-            )}
-            {(isEditingDescription || !description) && (
-              // TODO: change to a text editor
-              <TextareaAutosize
-                id="project-description"
-                value={projectDescription}
-                placeholder="Describe what this project is about..."
-                onChange={(e) => setProjectDescription(e.target.value)}
-                className={classNames(
-                  {
-                    'outline-none cursor-pointer hover:bg-slate-200 bg-slate-100':
-                      !isEditingDescription,
-                  },
-                  'w-full px-3 py-2 border border-gray-300 rounded-md resize-none font-light'
-                )}
-                readOnly={!isEditingDescription}
-                onClick={() => setIsEditingDescription(true)}
-                onBlur={handeDescriptionBlur}
-                autoFocus
-              />
-            )}
-          </div>
-          <div className="flex items-center gap-8">
+                <TrashIcon className="h-5" />
+                <span>Delete</span>
+              </button>
+            </div>
+          )}
+          <div className="flex items-center justify-between w-full gap-8 mt-4">
             <div className="flex flex-col">
-              <span className="font-medium">Delete this project</span>
-              <span>
-                Once you delete a project, there is no going back. <br /> Please be certain.
-              </span>
+              <span className="font-medium">Leave the project</span>
+              <span>You will have to be invited to join again.</span>
             </div>
             <button
-              id="project-delete"
-              onClick={onDelete}
+              onClick={onLeave}
               className="flex items-center justify-center gap-1 px-2 py-2 font-medium text-white bg-red-500 rounded-md hover:bg-red-600 h-fit"
             >
-              <TrashIcon className="h-5" />
-              <span>Delete</span>
+              <ArrowRightOnRectangleIcon className="h-5" />
+              <span>Leave</span>
             </button>
           </div>
         </Popover.Panel>
