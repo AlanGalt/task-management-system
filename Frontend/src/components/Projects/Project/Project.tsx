@@ -156,7 +156,6 @@ const Project = ({ projectData, defaultRoles, onDelete, onUpdate, removeMember }
   };
 
   const setMembers = (updatedMembers: Member[]) => {
-    console.log(members, updatedMembers);
     if (_.isEqual(members, updatedMembers)) return;
 
     const newData = {} as Partial<ProjectData>;

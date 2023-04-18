@@ -50,7 +50,6 @@ const MembersDialog = ({
   };
 
   const addMember = async (member: Member) => {
-    console.log(member);
     const updatedMembers = [...members, member];
     setMembers(updatedMembers);
   };

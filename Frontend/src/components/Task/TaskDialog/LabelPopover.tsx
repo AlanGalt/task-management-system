@@ -47,8 +47,6 @@ const LabelPopover = ({ customButton, labelIds, createLabel, toggleLabel }: Labe
       color: newLabelColor,
       title: newLabelText,
     };
-
-    console.log(updatedLabel);
   };
 
   const handlePencilClick = (label: LabelData) => {
