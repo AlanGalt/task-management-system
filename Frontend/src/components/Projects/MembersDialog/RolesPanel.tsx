@@ -1,27 +1,51 @@
-import { PlusIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import {
+  CheckIcon,
+  LockClosedIcon,
+  PlusIcon,
+  TrashIcon,
+  XMarkIcon,
+} from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 import { useEffect, useRef, useState } from 'react';
 
-import { Permission, Role } from './MembersDialog.types';
+import { DefaultRole, PermissionData, Role } from '../Project/Project.types';
+import { RolesPanelProps } from './MembersDialog.types';
 
-interface RolesPanelProps {
-  roles: Role[];
-  addRole: (role: Role) => void;
-  setPermissions: (roleName: string, permissions: Permission[]) => void;
-}
+// TODO: DELETE AND (RENAME ?) ROLES
 
-const RolesPanel = ({ roles, addRole, setPermissions }: RolesPanelProps) => {
+const RolesPanel = ({
+  roles,
+  defaultRoles,
+  addRole,
+  setPermissions,
+  deleteRole,
+}: RolesPanelProps) => {
+  const [allRoles, setAllRoles] = useState([...defaultRoles, ...roles]);
+
+  useEffect(() => {
+    setAllRoles([...defaultRoles, ...roles]);
+  }, [roles]);
+
+  const allPermissions = allRoles.find((role) => role.name === DefaultRole.Admin)?.permissions;
+
   const [selectedRoleName, setSelectedRoleName] = useState('');
   const [isAddingRole, setIsAddingRole] = useState(false);
   const [newRoleName, setNewRoleName] = useState('');
-  const [newRolePermissions, setNewRolePermissions] = useState<Permission[]>([]);
+  const [newRolePermissions, setNewRolePermissions] = useState<PermissionData[]>([]);
 
   const rolesRef = useRef<HTMLDivElement | null>(null);
   const addRoleButtonRef = useRef<HTMLButtonElement | null>(null);
   const permissionsRef = useRef<HTMLDivElement | null>(null);
 
-  const selectedRole = roles.find((role) => role.name === selectedRoleName);
+  const selectedRole = allRoles.find((role) => role.name === selectedRoleName);
   const currentRolePermissions = isAddingRole ? newRolePermissions : selectedRole?.permissions;
+
+  const permissionExists = (permission: PermissionData) =>
+    currentRolePermissions?.some(
+      (p) => p.name === permission.name && p.description === permission.description
+    );
+
+  const isDefaultRole = (roleName: string) => defaultRoles.some((r) => r.name === roleName);
 
   useEffect(() => {
     if (!rolesRef.current) return;
@@ -36,13 +60,18 @@ const RolesPanel = ({ roles, addRole, setPermissions }: RolesPanelProps) => {
     setSelectedRoleName('');
   };
 
-  const handlePermissionClick = (e: React.MouseEvent<HTMLDivElement>, permission: Permission) => {
+  const handlePermissionClick = (
+    e: React.MouseEvent<HTMLDivElement>,
+    permission: PermissionData
+  ) => {
     e.stopPropagation();
 
     if (!currentRolePermissions) return;
 
-    const updatedPermissions = currentRolePermissions.includes(permission)
-      ? currentRolePermissions.filter((p) => p !== permission)
+    const updatedPermissions = permissionExists(permission)
+      ? currentRolePermissions.filter(
+          (p) => p.name !== permission.name || p.description !== permission.description
+        )
       : [...currentRolePermissions, permission];
 
     selectedRole
@@ -71,45 +100,74 @@ const RolesPanel = ({ roles, addRole, setPermissions }: RolesPanelProps) => {
     if (
       !newRoleName ||
       !newRolePermissions.length ||
-      roles.find((role) => role.name === newRoleName)
+      allRoles.some((role) => role.name === newRoleName)
     ) {
       return;
     }
 
-    addRole({ name: newRoleName, permissions: newRolePermissions });
+    const newRole = { name: newRoleName, permissions: newRolePermissions } as Role;
+
+    setAllRoles([...defaultRoles, ...roles, newRole]);
+    addRole(newRole);
+
     resetAddingRole();
   };
 
   return (
     <div className="flex w-full gap-3 py-6 pl-8 pr-11 h-96" onClick={handlePanelClick}>
-      <div className="flex flex-col w-full">
+      <div className="flex flex-col flex-1">
         <div
           ref={rolesRef}
           className="flex flex-col select-none p-1 gap-2 overflow-y-auto max-h-[calc(100%-40px)]"
         >
-          {roles.map((role, index) => (
+          {allRoles.map((role, index) => (
             <div
               key={index}
               className={classNames(
-                { 'bg-blue-500 text-white hover:bg-blue-500': role.name === selectedRoleName },
-                'flex items-center bg-slate-100  hover:bg-slate-200  justify-between w-full px-2 py-1 rounded-md cursor-pointer'
+                {
+                  'bg-blue-500 text-white': role.name === selectedRoleName,
+                  ' bg-slate-100  hover:bg-slate-200 ': role.name !== selectedRoleName,
+                },
+                'flex items-center justify-between w-full px-2 py-1 rounded-md cursor-pointer group'
               )}
               onClick={(e) => handleRoleClick(e, role)}
             >
-              <span className={classNames({ 'font-medium': role.name === selectedRoleName })}>
+              <span
+                className={classNames(
+                  { 'font-medium': role.name === selectedRoleName },
+                  'break-words text-start'
+                )}
+              >
                 {role.name}
               </span>
+              {isDefaultRole(role.name) ? (
+                <div>
+                  <LockClosedIcon className="w-5 h-5" />
+                </div>
+              ) : (
+                <div className="flex gap-1">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteRole(role.name);
+                    }}
+                    className="invisible group-hover:visible"
+                  >
+                    <TrashIcon className="h-5" />
+                  </button>
+                </div>
+              )}
             </div>
           ))}
           {isAddingRole && (
             <div className="flex flex-col gap-2">
               <input
                 autoFocus
-                className="w-full px-2 py-1 rounded-md"
+                className="w-full px-2 py-1 border-2 rounded-md focus:bg-white border-slate-200"
                 placeholder="New role name"
                 value={newRoleName}
                 onChange={(e) => setNewRoleName(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && addNewRole()}
+                onKeyDown={(e) => e.key === 'Enter' && addNewRole()}
               />
               <div className="flex gap-2">
                 <button
@@ -141,25 +199,54 @@ const RolesPanel = ({ roles, addRole, setPermissions }: RolesPanelProps) => {
       </div>
       <div
         ref={permissionsRef}
-        className="flex flex-col items-start w-full h-full overflow-y-auto rounded-md"
+        className={classNames(
+          {
+            'border-dashed border-slate-400': !currentRolePermissions,
+            'border-slate-200 border-r-0 border-solid': currentRolePermissions,
+          },
+          'flex flex-col items-start w-2/3 h-full overflow-y-auto border-2 rounded-md'
+        )}
       >
         {currentRolePermissions ? (
-          Object.values(Permission).map((permission, index) => (
+          allPermissions?.map((permission, index) => (
             <div
               onClick={(e) => handlePermissionClick(e, permission)}
-              className="flex w-full gap-2 px-3 py-1 cursor-pointer select-none bg-slate-100 hover:bg-slate-200"
+              key={index}
+              className={classNames(
+                {
+                  'bg-blue-100 text-blue-500 hover:bg-blue-200': permissionExists(permission),
+                  'bg-white hover:bg-slate-100': !permissionExists(permission),
+                  'cursor-pointer': !isDefaultRole(selectedRoleName),
+                },
+                'flex  w-full gap-4 px-3 py-2  select-none items-center'
+              )}
             >
-              {/* TODO: custom checkbox */}
-              <input
-                type="checkbox"
-                key={index}
-                checked={currentRolePermissions.includes(permission)}
-              />
-              <span className="break-words text-start">{permission}</span>
+              <div>
+                <CheckIcon
+                  className={classNames(
+                    {
+                      visible: permissionExists(permission),
+                      invisible: !permissionExists(permission),
+                    },
+                    ' h-5 w-5'
+                  )}
+                />
+              </div>
+              <div className="flex flex-col items-start gap-1">
+                <span
+                  className={classNames(
+                    { 'font-medium': permissionExists(permission) },
+                    'break-words text-start font-medium'
+                  )}
+                >
+                  {permission.name}
+                </span>
+                <span className="text-start">{permission.description}</span>
+              </div>
             </div>
           ))
         ) : (
-          <div className="flex items-center w-full h-full px-2 border-2 border-dashed rounded-md border-slate-400">
+          <div className="flex items-center w-full h-full px-2 rounded-md">
             <span className="select-none text-slate-400">
               Click on existing role or create a new one to see it&apos;s permissions
             </span>
