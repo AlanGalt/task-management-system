@@ -5,6 +5,8 @@ import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { useEffect } from 'react';
+import { MantineProvider } from '@mantine/core';
 
 import Dashboard from './views/Dashboard';
 import Login from './components/Welcome/Login';
@@ -12,6 +14,7 @@ import PasswordReset from './components/Welcome/PasswordReset';
 import ProtectedRoutes from './components/ProtectedRoutes';
 import Loader from './components/Loader';
 import NotFound from './views/NotFound';
+import useUsers from './hooks/useUsers';
 
 firebase.initializeApp({
   apiKey: 'AIzaSyCWbCx-m3qUGhkbjl12OeuAqN9yIMpXnWY',
@@ -27,25 +30,44 @@ export const db = firebase.firestore();
 
 const App = () => {
   const [user, isLoading] = useAuthState(auth as any);
+  const { createUser } = useUsers();
+
+  // handling only users redirected with google
+  useEffect(() => {
+    if (!user) return;
+
+    const { uid, email, photoURL, displayName } = user;
+
+    if (!email || !photoURL || !displayName) return;
+
+    createUser({ uid, email, photoURL, name: displayName });
+  }, [user]);
 
   if (isLoading) {
-    return <Loader className="w-screen h-screen" />;
+    // TODO: maybe use mantine loader?
+    return <Loader className="w-full h-full" />;
   }
 
   return (
-    <div className="h-screen overflow-hidden bg-white text-base-content">
-      <Routes>
-        <Route path="/login" element={user ? <Navigate to="/dashboard" replace /> : <Login />} />
-        <Route path="/password-reset" element={<PasswordReset />} />
+    <MantineProvider
+      theme={{
+        fontFamily: 'Roboto, sans-serif',
+      }}
+    >
+      <div className="h-screen overflow-hidden bg-white text-base-content">
+        <Routes>
+          <Route path="/login" element={user ? <Navigate to="/dashboard" replace /> : <Login />} />
+          <Route path="/password-reset" element={<PasswordReset />} />
 
-        <Route path="/" element={<ProtectedRoutes />}>
-          <Route path="/dashboard/*" element={<Dashboard />} />
-          <Route path="/" element={<Navigate to="/dashboard" />} />
-        </Route>
+          <Route path="/" element={<ProtectedRoutes />}>
+            <Route path="/dashboard/*" element={<Dashboard />} />
+            <Route path="/" element={<Navigate to="/dashboard" />} />
+          </Route>
 
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </div>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
+    </MantineProvider>
   );
 };
 
