@@ -17,6 +17,9 @@ const CreateProjectPopover = ({ onSubmit }: CreateProjectPopoverProps) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!projectData.title?.trim()) return;
+
     onSubmit(projectData);
     setProjectData({ title: '', description: '' });
   };

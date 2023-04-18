@@ -51,7 +51,7 @@ const List = ({
   }, [isAddingTask, tasks.length]);
 
   const addNewTask = () => {
-    if (!newTaskTitle) return;
+    if (!newTaskTitle.trim()) return;
 
     const newTask = {
       id: '', // fake id for typescript
@@ -61,7 +61,7 @@ const List = ({
       completed: false,
       createdAt: serverTimestamp() as Timestamp,
       labelIds: [],
-      title: newTaskTitle,
+      title: newTaskTitle.trim(),
       listId: id,
       projectId: projectId,
     } as TaskData;

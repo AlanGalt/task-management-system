@@ -48,6 +48,7 @@ const ProjectList = () => {
 
     await addProject({
       ...newProject,
+      title: newProject.title.trim(),
       creatorId: user.uid,
       createdAt: serverTimestamp() as Timestamp,
       active: true,

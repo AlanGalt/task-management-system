@@ -103,7 +103,7 @@ const Project = ({ projectData, defaultRoles, onDelete, onUpdate, removeMember }
   const permit = userRole ? getPermissionStatus(userRole?.permissions) : ({} as Permit);
 
   const handleAddList = () => {
-    if (!newListTitle || !lists || !projectLists) return;
+    if (!newListTitle.trim() || !lists || !projectLists) return;
 
     const newList = {
       id: '', // fake id for typescript
@@ -111,7 +111,7 @@ const Project = ({ projectData, defaultRoles, onDelete, onUpdate, removeMember }
       index: lists.length,
       createdAt: serverTimestamp() as Timestamp,
       projectId: id,
-      title: newListTitle,
+      title: newListTitle.trim(),
     } as ListData;
 
     setNewListTitle('');
