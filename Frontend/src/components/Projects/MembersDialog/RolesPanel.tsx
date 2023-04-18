@@ -246,7 +246,7 @@ const RolesPanel = ({
             </div>
           ))
         ) : (
-          <div className="flex items-center w-full h-full px-2 rounded-md">
+          <div className="flex items-center justify-center w-full h-full px-2 rounded-md">
             <span className="select-none text-slate-400">
               Click on existing role or create a new one to see it&apos;s permissions
             </span>
