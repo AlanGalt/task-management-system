@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Popover } from '@headlessui/react';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 
 import { CreateProjectPopoverProps } from './CreateProjectPopover.types';
 import { ProjectData } from '../Project/Project.types';
@@ -22,7 +23,7 @@ const CreateProjectPopover = ({ onSubmit }: CreateProjectPopoverProps) => {
 
   return (
     <Popover>
-      <Popover.Button className="flex items-center justify-center h-32 rounded-md w-52 bg-slate-200 hover:bg-slate-300">
+      <Popover.Button className="flex items-center justify-center w-56 h-32 rounded-md bg-slate-200 hover:bg-slate-300">
         Create new project
       </Popover.Button>
       <Popover.Panel className="absolute z-10 -translate-x-1/2 -translate-y-1/2 bg-white border-2 rounded-md border-base-300 top-1/2 left-1/2">
@@ -34,6 +35,9 @@ const CreateProjectPopover = ({ onSubmit }: CreateProjectPopoverProps) => {
               close();
             }}
           >
+            <Popover.Button className="absolute p-2 rounded-full top-1 right-1 w-fit focus:outline-none">
+              <XMarkIcon className="h-5" />
+            </Popover.Button>
             <label htmlFor="title" className="font-medium">
               Title
             </label>
