@@ -1,34 +1,58 @@
 import { Dialog, Tab, Transition } from '@headlessui/react';
 import { KeyIcon, UserIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 
-import { MembersDialogProps, Permission, Role } from './MembersDialog.types';
+import { Member, PermissionData, Role } from '../Project/Project.types';
+import { MembersDialogProps } from './MembersDialog.types';
 import MembersPanel from './MembersPanel';
 import RolesPanel from './RolesPanel';
 
 const tabs = ['Members', 'Roles'];
 
-const MembersDialog = ({ isOpen, onClose }: MembersDialogProps) => {
-  const [roles, setRoles] = useState<Role[]>([
-    {
-      name: 'Admin',
-      permissions: [Permission.Test1, Permission.Test2, Permission.Test3, Permission.Test4],
-    },
-    { name: 'Collaborator', permissions: [Permission.Test1, Permission.Test2] },
-    { name: 'Viewer', permissions: [Permission.Test3] },
-  ]);
+const MembersDialog = ({
+  isOpen,
+  members,
+  roles,
+  defaultRoles,
+  setMembers,
+  setRoles,
+  removeMember,
+  onClose,
+}: MembersDialogProps) => {
+  const allRoles = [...defaultRoles, ...roles];
 
-  const setPermissions = (roleName: string, permissions: Permission[]) => {
-    setRoles((prevRoles) =>
-      prevRoles.map((role) =>
-        role.name === roleName ? { ...role, permissions: permissions } : role
-      )
+  const setPermissions = (roleName: string, permissions: PermissionData[]) => {
+    const updatedRoles = roles.map((role) =>
+      role.name === roleName ? { ...role, permissions: permissions } : role
     );
+
+    setRoles(updatedRoles);
   };
 
   const addRole = (role: Role) => {
     setRoles([...roles, role]);
+  };
+
+  const deleteRole = (roleName: string) => {
+    if (members.some((m) => m.roleName === roleName)) return;
+
+    const updatedRoles = roles.filter((r) => r.name !== roleName);
+
+    setRoles(updatedRoles);
+  };
+
+  const setMemberRole = (uid: string, roleName: string) => {
+    const updatedMembers = members.map((member) =>
+      member.uid === uid ? { ...member, roleName } : member
+    );
+    setMembers(updatedMembers);
+  };
+
+  const addMember = async (member: Member) => {
+    console.log(member);
+    const updatedMembers = [...members, member];
+    setMembers(updatedMembers);
   };
 
   return (
@@ -57,7 +81,7 @@ const MembersDialog = ({ isOpen, onClose }: MembersDialogProps) => {
           >
             <div className="fixed inset-0 overflow-y-auto">
               <div className="flex items-center justify-center min-h-full p-4">
-                <Dialog.Panel className="relative z-20 flex w-5/12 gap-6 mx-auto bg-white rounded-md rounded-tl-none text-base-content">
+                <Dialog.Panel className="relative z-20 flex w-6/12 gap-6 mx-auto bg-white rounded-md rounded-tl-none text-base-content">
                   <button
                     onClick={onClose}
                     className="absolute p-2 rounded-full top-1 right-1 w-fit hover:bg-gray-200"
@@ -94,13 +118,21 @@ const MembersDialog = ({ isOpen, onClose }: MembersDialogProps) => {
                       </Tab.List>
                       <Tab.Panels>
                         <Tab.Panel className="flex flex-col items-start">
-                          <MembersPanel roles={roles} />
+                          <MembersPanel
+                            members={members}
+                            roles={allRoles}
+                            setMemberRole={setMemberRole}
+                            addMember={addMember}
+                            removeMember={removeMember}
+                          />
                         </Tab.Panel>
                         <Tab.Panel className="flex flex-col items-start">
                           <RolesPanel
                             roles={roles}
+                            defaultRoles={defaultRoles}
                             addRole={addRole}
                             setPermissions={setPermissions}
+                            deleteRole={deleteRole}
                           />
                         </Tab.Panel>
                       </Tab.Panels>
