@@ -1,87 +1,76 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import firebase from 'firebase/compat/app';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { updateProfile } from 'firebase/auth';
+import { createAvatar } from '@dicebear/core';
+import { initials } from '@dicebear/collection';
 
 import googleLogo from '../../assets/GoogleLogo.svg';
 import Loader from '../Loader';
 import Logo from '../Logo';
 import FloatingLabelInput from '../FloatingLabelInput';
-import { auth, db } from '../../App';
+import { auth } from '../../App';
+import useUsers from '../../hooks/useUsers';
 
 const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [, isLoading] = useAuthState(auth as any);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const navigate = useNavigate();
+  const [, isAuthStateChanging] = useAuthState(auth as any);
+  const { createUser } = useUsers();
 
   const signUpWithEmail = async () => {
-    const user = await auth.createUserWithEmailAndPassword(email, password).catch(console.error);
+    setIsLoading(true);
+    const signUpResult = await auth
+      .createUserWithEmailAndPassword(email, password)
+      .catch(console.error);
 
-    if (!user?.user) {
+    if (!signUpResult?.user) {
       console.error('User could not be created');
+      setIsLoading(false);
       return;
     }
 
-    await db
-      .collection('users')
-      .doc(user.user.uid)
-      .set({
-        uid: user.user.uid,
-        email: user.user.email,
-        name,
-      })
-      .catch(console.error);
+    const { uid } = signUpResult.user;
 
-    await updateProfile(user.user, { displayName: name }).catch(console.error);
+    // TODO: compress avatar uri
+    const avatar = await createAvatar(initials, {
+      seed: name,
+    }).toDataUri();
 
-    navigate('/dashboard');
+    await createUser({ uid, email, photoURL: avatar, name });
+
+    await updateProfile(signUpResult.user, { displayName: name, photoURL: avatar }).catch(
+      console.error
+    );
+
+    setIsLoading(false);
   };
 
   const logInWithEmail = async () => {
+    setIsLoading(true);
+
     const user = await auth.signInWithEmailAndPassword(email, password).catch(console.error);
 
+    setIsLoading(false);
+
     if (!user?.user) {
       console.error('Could not sign in');
       return;
     }
-
-    navigate('/dashboard');
   };
 
-  const handleContinueWithGoogle = async () => {
+  const continueWithGoogle = async () => {
     const googleProvider = new firebase.auth.GoogleAuthProvider();
     await auth.signInWithRedirect(googleProvider).catch(console.error);
-    const user = await auth.getRedirectResult().catch(console.error);
-
-    if (!user?.user) {
-      console.error('Could not sign in');
-      return;
-    }
-
-    // TODO: need to check if the user exists here and add him if not
-    if (isSignUp) {
-      await db
-        .collection('users')
-        .doc(user.user.uid)
-        .set({
-          uid: user.user.uid,
-          email: user.user.email,
-          photo: user.user.photoURL,
-          name: user.user.displayName,
-        })
-        .catch(console.error);
-    }
-
-    navigate('/dashboard');
   };
 
-  if (isLoading) {
-    return <Loader />;
+  if (isLoading || isAuthStateChanging) {
+    return <Loader className="w-full h-full" />;
   }
 
   return (
@@ -144,7 +133,7 @@ const Login = () => {
         </div>
         <div className="w-full">
           <button
-            onClick={handleContinueWithGoogle}
+            onClick={continueWithGoogle}
             className="flex items-center justify-center w-full gap-3 px-6 py-3 mt-5 border-2 rounded-md hover:bg-slate-100 border-slate-200"
           >
             <img src={googleLogo} className="h-8" />

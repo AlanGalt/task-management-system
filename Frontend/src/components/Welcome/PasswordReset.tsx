@@ -8,6 +8,7 @@ import { auth } from '../../App';
 const PasswordReset = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
+  const [verificationCode, setVerificationCode] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
@@ -36,7 +37,11 @@ const PasswordReset = () => {
             type="email"
             autoComplete="email"
           />
-          <FloatingLabelInput label="Verification code" type="email" />
+          <FloatingLabelInput
+            value={verificationCode}
+            onChange={(e) => setVerificationCode(e.target.value)}
+            label="Verification code"
+          />
         </div>
         {message && <p className="text-green-600">{message}</p>}
         {error && <p className="text-red-600">{error}</p>}
