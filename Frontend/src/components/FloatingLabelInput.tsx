@@ -22,7 +22,7 @@ const FloatingLabelInput = ({
 
   const [isShowingPassword, setIsShowingPassword] = useState(false);
 
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+  const handleBlur = () => {
     setIsFocused(false);
   };
 
@@ -34,7 +34,7 @@ const FloatingLabelInput = ({
         onBlur={handleBlur}
         className={classNames(
           { 'pr-12': type === 'password' },
-          'block w-full px-4 py-3 transition-all duration-200 ease-linear bg-transparent border-2 rounded-md outline-none border-slate-200 focus:border-blue-400'
+          'block w-full px-4 py-3 transition-all duration-200 ease-linear bg-transparent border-2 rounded-md outline-none border-slate-200'
         )}
         value={value}
         onChange={onChange}
