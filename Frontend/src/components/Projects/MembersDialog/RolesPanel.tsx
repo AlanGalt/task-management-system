@@ -98,14 +98,14 @@ const RolesPanel = ({
 
   const addNewRole = () => {
     if (
-      !newRoleName ||
+      !newRoleName.trim() ||
       !newRolePermissions.length ||
       allRoles.some((role) => role.name === newRoleName)
     ) {
       return;
     }
 
-    const newRole = { name: newRoleName, permissions: newRolePermissions } as Role;
+    const newRole = { name: newRoleName.trim(), permissions: newRolePermissions } as Role;
 
     setAllRoles([...defaultRoles, ...roles, newRole]);
     addRole(newRole);
