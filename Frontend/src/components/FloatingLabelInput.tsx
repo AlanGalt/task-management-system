@@ -34,7 +34,7 @@ const FloatingLabelInput = ({
         onBlur={handleBlur}
         className={classNames(
           { 'pr-12': type === 'password' },
-          'block w-full px-4 py-3 transition-all duration-200 ease-linear bg-transparent border-2 rounded-md outline-none border-slate-200'
+          'block w-full px-4 py-3 transition-all duration-200 ease-linear bg-transparent focus:border-blue-500 border-2 rounded-md outline-none border-slate-200'
         )}
         value={value}
         onChange={onChange}
