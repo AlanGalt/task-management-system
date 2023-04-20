@@ -26,7 +26,9 @@ const RolesPanel = ({
     setAllRoles([...defaultRoles, ...roles]);
   }, [roles]);
 
-  const allPermissions = allRoles.find((role) => role.name === DefaultRole.Admin)?.permissions;
+  const allPermissions = allRoles
+    .find((role) => role.name === DefaultRole.Admin)
+    ?.permissions.sort((a, b) => (a.name > b.name ? 1 : 0));
 
   const [selectedRoleName, setSelectedRoleName] = useState('');
   const [isAddingRole, setIsAddingRole] = useState(false);
@@ -40,11 +42,12 @@ const RolesPanel = ({
   const selectedRole = allRoles.find((role) => role.name === selectedRoleName);
   const currentRolePermissions = isAddingRole ? newRolePermissions : selectedRole?.permissions;
 
-  const permissionExists = (permission: PermissionData) =>
-    currentRolePermissions?.some(
+  const permissionExists = (permission: PermissionData) => {
+    const exists = currentRolePermissions?.some(
       (p) => p.name === permission.name && p.description === permission.description
     );
-
+    return exists;
+  };
   const isDefaultRole = (roleName: string) => defaultRoles.some((r) => r.name === roleName);
 
   useEffect(() => {
