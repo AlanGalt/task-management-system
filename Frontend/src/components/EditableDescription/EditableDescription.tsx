@@ -3,13 +3,7 @@ import classNames from 'classnames';
 import { useState } from 'react';
 import ReactTextareaAutosize from 'react-textarea-autosize';
 
-interface EditableDescriptionProps {
-  title: string;
-  description: string;
-  hasPermission: boolean;
-  setDescription: (description: string) => void;
-  onBlur: () => void;
-}
+import { EditableDescriptionProps } from './EditableDescription.types';
 
 const EditableDescription = ({
   title,
@@ -28,7 +22,7 @@ const EditableDescription = ({
   return (
     <div className="flex flex-col items-start w-full gap-2 border-slate-200">
       {(hasPermission || description) && (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2" data-testid="editableDescription-header">
           <Bars3BottomLeftIcon className="h-5" />
           <span className="font-medium">Description</span>
         </div>

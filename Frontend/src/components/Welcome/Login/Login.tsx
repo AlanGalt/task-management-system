@@ -6,12 +6,12 @@ import { updateProfile } from 'firebase/auth';
 import { createAvatar } from '@dicebear/core';
 import { initials } from '@dicebear/collection';
 
-import googleLogo from '../../assets/GoogleLogo.svg';
-import Loader from '../Loader';
-import Logo from '../Logo';
-import FloatingLabelInput from '../FloatingLabelInput';
-import { auth } from '../../App';
-import useUsers from '../../hooks/useUsers';
+import googleLogo from '../../../assets/GoogleLogo.svg';
+import Loader from '../../Loader';
+import Logo from '../../Logo';
+import FloatingLabelInput from '../../FloatingLabelInput';
+import { auth } from '../../../App';
+import useUsers from '../../../hooks/useUsers';
 
 const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -104,13 +104,13 @@ const Login = () => {
             autoComplete={isSignUp ? 'current-password' : 'new-password'}
           />
         </div>
-        {!isSignUp && (
+        {/* {!isSignUp && (
           <div className="w-full mt-1">
             <Link to="/password-reset" className="text-blue-500 cursor-pointer hover:text-blue-600">
               Forgot password?
             </Link>
           </div>
-        )}
+        )} */}
         <button
           onClick={() => (isSignUp ? signUpWithEmail() : logInWithEmail())}
           className="w-full px-6 py-3 mt-4 text-white bg-blue-500 rounded-md hover:bg-blue-600"

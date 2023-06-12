@@ -124,37 +124,38 @@ const LabelPopover = ({ customButton, labelIds, createLabel, toggleLabel }: Labe
           </div>
         ) : (
           <div className="flex flex-col w-full gap-2 mt-2">
-            <input
+            {/* <input
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
               placeholder="Search labels..."
               autoFocus
               className="w-full px-2 py-1 rounded-md border-[1px] border-slate-200"
-            />
+            /> */}
             <div className="flex flex-col gap-2 overflow-hidden">
-              <span className="text-sm text-left text-slate-600">Labels</span>
+              {/* <span className="text-sm text-left text-slate-600">Labels</span> */}
               <div className="flex flex-col max-h-[24.5rem] gap-2 px-1 overflow-y-auto">
                 {filteredLabels?.map((label) => (
                   <div key={label.id} className="flex items-center gap-2">
                     <Checkbox
                       onChange={() => toggleLabel(label.id)}
                       checked={labelIds.includes(label.id)}
+                      data-testid={`label-checkbox-${label.id}`}
                     />
                     <div className={`w-full rounded-md h-8 ${label.color} truncate`}>
                       {label.title}
                     </div>
-                    <button className="flex p-1 rounded-md bg-slate-100 hover:bg-slate-200">
+                    {/* <button className="flex p-1 rounded-md bg-slate-100 hover:bg-slate-200">
                       <PencilSquareIcon className="h-5" onClick={() => handlePencilClick(label)} />
-                    </button>
+                    </button> */}
                   </div>
                 ))}
               </div>
-              <button
+              {/* <button
                 onClick={() => setIsCreatingLabel(true)}
                 className="px-2 py-1 rounded-md bg-slate-100 hover:bg-slate-200"
               >
                 <span>Create a new label</span>
-              </button>
+              </button> */}
             </div>
           </div>
         )}

@@ -1,8 +1,7 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import React from 'react';
 
-import { auth } from '../App';
-import Header from './Header';
+import { auth } from '../../App';
+import Header from '../Header';
 
 const ProtectedRoutes = () => {
   const isLoggedIn = !!auth.currentUser;

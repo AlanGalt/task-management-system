@@ -1,5 +1,2 @@
 build/*
 vite-env.d.ts
-vite.config.ts
-.eslint.json
-tailwind.config.js

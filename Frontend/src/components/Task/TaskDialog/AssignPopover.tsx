@@ -77,6 +77,7 @@ const AssignPopover = ({
                     { invisible: !assignedMembersUid.includes(member.uid) },
                     'h-5'
                   )}
+                  data-testid={`assignPopover-checkIcon-${member.uid}`}
                 />
               </div>
             </button>

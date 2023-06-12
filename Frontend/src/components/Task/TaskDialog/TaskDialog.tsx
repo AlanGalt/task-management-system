@@ -218,30 +218,33 @@ export const TaskDialog = ({
                               </div>
                             </div>
                           )}
-                          <div className="flex flex-col justify-between gap-2">
-                            <span className="text-sm text-left text-slate-600">Labels</span>
-                            <div className="flex flex-wrap items-center gap-1">
-                              {taskLabels?.map((label) => (
-                                <div
-                                  className={`${label.color} min-w-[3rem] max-w-full h-8 flex items-center rounded-md px-1 py-1`}
-                                >
-                                  <span className="font-extrabold text-white truncate">
-                                    {label.title}
-                                  </span>
-                                </div>
-                              ))}
-                              <LabelPopover
-                                customButton={
-                                  <button className="flex items-center justify-center w-12 h-8 px-1 py-1 rounded-md bg-slate-100 hover:bg-slate-200">
-                                    <PlusIcon className="h-5" />
-                                  </button>
-                                }
-                                toggleLabel={toggleLabel}
-                                createLabel={createLabel}
-                                labelIds={labelIds}
-                              />
+                          {!!taskLabels?.length && (
+                            <div className="flex flex-col justify-between gap-2">
+                              <span className="text-sm text-left text-slate-600">Labels</span>
+                              <div className="flex flex-wrap items-center gap-1">
+                                {taskLabels.map((label) => (
+                                  <div
+                                    className={`${label.color} min-w-[3rem] max-w-full h-8 flex items-center rounded-md px-1 py-1`}
+                                    key={label.id}
+                                  >
+                                    <span className="font-extrabold text-white truncate">
+                                      {label.title}
+                                    </span>
+                                  </div>
+                                ))}
+                                <LabelPopover
+                                  customButton={
+                                    <button className="flex items-center justify-center w-12 h-8 px-1 py-1 rounded-md bg-slate-100 hover:bg-slate-200">
+                                      <PlusIcon className="h-5" />
+                                    </button>
+                                  }
+                                  toggleLabel={toggleLabel}
+                                  createLabel={createLabel}
+                                  labelIds={labelIds}
+                                />
+                              </div>
                             </div>
-                          </div>
+                          )}
                           {dates.some((d) => d) && (
                             <div className="flex flex-col justify-between">
                               <span className="text-sm text-left text-slate-600">

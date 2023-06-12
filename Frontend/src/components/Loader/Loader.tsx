@@ -1,4 +1,4 @@
-import loader from '../assets/Loader.svg';
+import loader from '../../assets/Loader.svg';
 
 interface LoaderProps {
   className?: string;
@@ -7,7 +7,7 @@ interface LoaderProps {
 const Loader = ({ className }: LoaderProps) => {
   return (
     <div className={`flex items-center justify-center ${className}`}>
-      <img src={loader} />
+      <img src={loader} alt="Loader"/>
     </div>
   );
 };

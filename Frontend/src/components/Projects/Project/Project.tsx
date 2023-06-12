@@ -274,11 +274,12 @@ const Project = ({ projectData, defaultRoles, onDelete, onUpdate, removeMember }
   return (
     <LabelsContext.Provider value={labels}>
       <MembersContext.Provider value={sortedMembers}>
-        <div className="flex flex-col w-full h-full p-4">
+        <div data-testid="project-container" className="flex flex-col w-full h-full p-4">
           <div className="flex items-center justify-between w-full mb-4">
             {/* TODO: make input auto stretch to fit title */}
             {/* TODO: extract this type of input as it's own component */}
             <input
+              data-testid="project-title"
               value={projectTitle}
               onChange={(e) => setProjectTitle(e.target.value)}
               className={classNames(
@@ -295,10 +296,10 @@ const Project = ({ projectData, defaultRoles, onDelete, onUpdate, removeMember }
             />
             <div className="relative flex gap-2">
               <div className="flex gap-2 pr-2 border-r-2 border-gray-200">
-                <button className="flex items-center gap-1 px-2 py-1 rounded-md bg-slate-100 h-9 hover:bg-slate-200">
+                {/* <button className="flex items-center gap-1 px-2 py-1 rounded-md bg-slate-100 h-9 hover:bg-slate-200">
                   <FunnelIcon className="w-7 h-7" />
                   <span>Filter tasks</span>
-                </button>
+                </button> */}
                 {permit[Permission.ManageMembers] && (
                   <button
                     onClick={() => setIsMembersDialogOpen(true)}

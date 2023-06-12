@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
-import FloatingLabelInput from '../FloatingLabelInput';
-import Logo from '../Logo';
-import { auth } from '../../App';
+import FloatingLabelInput from '../../FloatingLabelInput';
+import Logo from '../../Logo';
+import { auth } from '../../../App';
 
 const PasswordReset = () => {
   const navigate = useNavigate();

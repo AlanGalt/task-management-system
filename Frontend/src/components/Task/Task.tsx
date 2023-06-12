@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 
-import ProfilePicture from '../ProfilePicture';
+import ProfilePicture from '../ProfilePicture/ProfilePicture';
 import MembersContext from '../../contexts/MembersContext';
 import { Permission } from '../Projects/Project/Project.types';
 import { Dates, TaskProps } from './Task.types';
@@ -100,12 +100,14 @@ const Task = ({ taskData, listTitle, permit, index, onDelete, onUpdate }: TaskPr
         className="w-full h-10 px-2 py-1 rounded-md"
         onKeyDown={(e) => e.key === 'Enter' && handleSave()}
         autoFocus
+        data-testid="task-input"
       />
       <button
         ref={saveButtonRef}
         className="p-1 hover:text-slate-500"
         onMouseDown={(e) => e.preventDefault()}
         onClick={handleSave}
+        data-testid="task-saveButton"
       >
         <CheckIcon className="h-5" />
       </button>
@@ -129,6 +131,7 @@ const Task = ({ taskData, listTitle, permit, index, onDelete, onUpdate }: TaskPr
                     className="absolute invisible p-1 bg-transparent rounded-md top-1 right-1 group-hover:visible hover:bg-slate-200"
                     onClick={handleEdit}
                     ref={editButtonRef}
+                    data-testid="task-editButton"
                   >
                     <PencilIcon className="h-5" />
                   </button>
@@ -138,7 +141,7 @@ const Task = ({ taskData, listTitle, permit, index, onDelete, onUpdate }: TaskPr
             {shouldRenderSubsection && (
               <div className="flex flex-wrap items-center justify-between w-full gap-3">
                 {!!assignedMembers?.length && (
-                  <div className="flex flex-wrap items-center gap-1">
+                  <div className="flex flex-wrap items-center gap-1" data-testid="task-members">
                     {assignedMembers?.map((member) => (
                       <ProfilePicture key={member.uid} src={member.photoURL} className="h-7" />
                     ))}
@@ -148,7 +151,9 @@ const Task = ({ taskData, listTitle, permit, index, onDelete, onUpdate }: TaskPr
                   <div className="flex flex-wrap gap-1">
                     {taskLabels?.map((label) => (
                       <div
-                        className={`${label.color} min-w-[2.5rem] max-w-full h-6 flex items-center rounded-md px-1 py-1`}
+                      key={label.id}  
+                      className={`${label.color} min-w-[2.5rem] max-w-full h-6 flex items-center rounded-md px-1 py-1`}
+                        data-testid="task-labels"
                       >
                         <span className="font-extrabold text-white truncate">{label.title}</span>
                       </div>
@@ -156,7 +161,7 @@ const Task = ({ taskData, listTitle, permit, index, onDelete, onUpdate }: TaskPr
                   </div>
                 )}
                 {(dates[0] || dates[1]) && (
-                  <div className="flex items-center justify-center">
+                  <div className="flex items-center justify-center" data-testid="task-dates">
                     <Badge
                       variant="filled"
                       radius="sm"

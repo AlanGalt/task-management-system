@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from 'react';
 import {
   addDoc,
   collection,
-  deleteDoc,
   doc,
   getDocs,
   onSnapshot,
@@ -76,15 +75,9 @@ const useProjectLists = (projectId: string) => {
       tasksSnapshot.docs.forEach((task) => {
         const taskRef = doc(tasksRef, task.id);
         batch.delete(taskRef);
-        // return deleteDoc(taskRef);
       });
 
-      // await Promise.all(tasksPromises);
-
-      // Find the list to be deleted and store its index
       const deletedListIndex = lists.findIndex((list) => list.id === listId);
-
-      // Filter out the deleted list
       const updatedLists = lists.filter((list) => list.id !== listId);
 
       // Adjust index values for the remaining lists after deleting the list
@@ -93,14 +86,9 @@ const useProjectLists = (projectId: string) => {
           const updatedIndex = index;
           const listRef = doc(listsRef, list.id);
 
-          // return updateDoc(listRef, { index: updatedIndex });
           batch.update(listRef, { index: updatedIndex });
         }
       });
-
-      // const deleteListPromise = deleteDoc(listRef);
-
-      // await Promise.all([...listPromises, deleteListPromise]);
 
       batch.delete(listRef);
       await batch.commit().catch(console.error);

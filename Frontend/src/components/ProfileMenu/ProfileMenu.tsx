@@ -2,10 +2,10 @@ import { Menu, Transition } from '@headlessui/react';
 import { Fragment, useEffect, useState } from 'react';
 import { useSignOut } from 'react-firebase-hooks/auth';
 
-import { auth } from '../App';
-import useUserIfExists from '../hooks/useUserIfExists';
-import ProfilePicture from './ProfilePicture';
-import { UserData } from './Projects/Project/Project.types';
+import { auth } from '../../App';
+import useUserIfExists from '../../hooks/useUserIfExists';
+import ProfilePicture from '../ProfilePicture';
+import { UserData } from '../Projects/Project/Project.types';
 
 const ProfileMenu = () => {
   const currentUser = auth.currentUser;
@@ -51,18 +51,11 @@ const ProfileMenu = () => {
           </div>
 
           <div>
-            {/* <Menu.Item as="div" className="flex justify-center mt-3">
-              <a
-                href="#"
-                className="px-3 py-1 border-2 rounded-full border-base-300 hover:bg-base-200 "
-              >
-                Manage your account
-              </a>
-            </Menu.Item> */}
             <Menu.Item as="div" className="flex justify-center mt-2 ">
               <button
                 onClick={() => signOut()}
                 className="px-3 py-1 border-2 rounded-sm border-base-300 hover:bg-base-200"
+                data-testid="signOut-button"
               >
                 Sign out
               </button>

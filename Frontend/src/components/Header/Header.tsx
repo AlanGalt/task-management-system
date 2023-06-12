@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
-import Logo from './Logo';
-import ProfileMenu from './ProfileMenu';
+import Logo from '../Logo';
+import ProfileMenu from '../ProfileMenu';
 // import Notifications from './Notifications';
 
 const Header = () => {

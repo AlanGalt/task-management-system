@@ -38,17 +38,19 @@ const FloatingLabelInput = ({
         )}
         value={value}
         onChange={onChange}
+        data-testid={'floatingLabelInput-input'}
         {...props}
       />
       {type === 'password' && (
         <button
           className="absolute p-2 -translate-y-1/2 rounded-full top-1/2 right-2 hover:bg-blue-100"
           onClick={() => setIsShowingPassword(!isShowingPassword)}
+          data-testid={'floatingLabelInput-button'}
         >
           {isShowingPassword ? <EyeSlashIcon className="h-5" /> : <EyeIcon className="h-5" />}
         </button>
       )}
-      <label
+      <span
         className={classNames(
           {
             ' text-blue-500 ': isFocused,
@@ -58,9 +60,10 @@ const FloatingLabelInput = ({
           },
           'pointer-events-none absolute top-1/2 -translate-y-1/2 left-4 max-w-[90%] origin-[0_0] truncate transition-all duration-200 ease-out'
         )}
+        data-testid={'floatingLabelInput-label'}
       >
         {label}
-      </label>
+      </span>
     </div>
   );
 };
