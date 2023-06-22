@@ -124,6 +124,17 @@ export const TaskDialog = ({
     }
   };
 
+  const renderDatePicker = () => (
+    <DatePickerInput
+      type={dates[0] && dates[1] ? 'range' : 'default'}
+      valueFormat={`MMM D${dates[0]?.getFullYear() !== dates[1]?.getFullYear() ? ', YYYY' : ''}`}
+      allowSingleDateInRange
+      value={dates.filter((d) => d) as Dates}
+      readOnly
+      className="no-border-date"
+    />
+  );
+
   const createLabel = (labelData: LabelData) => {
     // console.log(labelData);
   };
@@ -232,16 +243,18 @@ export const TaskDialog = ({
                                     </span>
                                   </div>
                                 ))}
-                                <LabelPopover
-                                  customButton={
-                                    <button className="flex items-center justify-center w-12 h-8 px-1 py-1 rounded-md bg-slate-100 hover:bg-slate-200">
-                                      <PlusIcon className="h-5" />
-                                    </button>
-                                  }
-                                  toggleLabel={toggleLabel}
-                                  createLabel={createLabel}
-                                  labelIds={labelIds}
-                                />
+                                {permit[Permission.EditTasks] && (
+                                  <LabelPopover
+                                    customButton={
+                                      <button className="flex items-center justify-center w-12 h-8 px-1 py-1 rounded-md bg-slate-100 hover:bg-slate-200">
+                                        <PlusIcon className="h-5" />
+                                      </button>
+                                    }
+                                    toggleLabel={toggleLabel}
+                                    createLabel={createLabel}
+                                    labelIds={labelIds}
+                                  />
+                                )}
                               </div>
                             </div>
                           )}
@@ -254,34 +267,33 @@ export const TaskDialog = ({
                               </span>
 
                               <div className="flex items-center gap-2">
-                                <Checkbox
-                                  checked={completed}
-                                  onChange={(e) => onUpdate({ completed: e.target.checked })}
-                                />
-                                <SetDatePopover
-                                  customButton={
-                                    <button className="flex items-center justify-center gap-2 px-2 rounded-md bg-slate-100 hover:bg-slate-200">
-                                      <DatePickerInput
-                                        type={dates[0] && dates[1] ? 'range' : 'default'}
-                                        valueFormat={`MMM D${
-                                          dates[0]?.getFullYear() !== dates[1]?.getFullYear()
-                                            ? ', YYYY'
-                                            : ''
-                                        }`}
-                                        allowSingleDateInRange
-                                        value={dates.filter((d) => d) as Dates}
-                                        readOnly
-                                        className="no-border-date"
-                                      />
-                                      <div className="flex">{renderDateBadge()}</div>
-                                      <div>
-                                        <ChevronDownIcon className="h-5" />
-                                      </div>
-                                    </button>
-                                  }
-                                  dates={dates}
-                                  setDates={setDates}
-                                />
+                                {permit[Permission.EditTasks] && (
+                                  <Checkbox
+                                    checked={completed}
+                                    onChange={(e) => onUpdate({ completed: e.target.checked })}
+                                  />
+                                )}
+                                {permit[Permission.EditTasks] ? (
+                                  <SetDatePopover
+                                    customButton={
+                                      <button className="flex items-center justify-center gap-2 px-2 rounded-md bg-slate-100 hover:bg-slate-200">
+                                        {renderDatePicker()}
+                                        <div className="flex">{renderDateBadge()}</div>
+                                        {permit[Permission.EditTasks] && (
+                                          <div>
+                                            <ChevronDownIcon className="h-5" />
+                                          </div>
+                                        )}
+                                      </button>
+                                    }
+                                    dates={dates}
+                                    setDates={setDates}
+                                  />
+                                ) : (
+                                  <div className="flex items-center justify-center gap-2 px-2 rounded-md bg-slate-100">
+                                    {renderDatePicker()}
+                                  </div>
+                                )}
                               </div>
                             </div>
                           )}
